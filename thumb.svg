@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="badgeG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)" />
+  <circle cx="700" cy="80" r="140" fill="#3b82f6" opacity="0.08" />
+  <circle cx="100" cy="380" r="160" fill="#f59e0b" opacity="0.05" />
+  
+  <!-- Badges -->
+  <g transform="translate(60, 60)">
+    <rect width="130" height="36" rx="8" fill="url(#blueG)" />
+    <text x="65" y="24" fill="#ffffff" font-family="'Pretendard', sans-serif" font-size="16" font-weight="800" text-anchor="middle">JLPT MOCK</text>
+  </g>
+  <g transform="translate(200, 60)">
+    <rect width="150" height="36" rx="8" fill="url(#badgeG)" />
+    <text x="75" y="24" fill="#ffffff" font-family="'Pretendard', sans-serif" font-size="16" font-weight="800" text-anchor="middle">N3 · N2 622제</text>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="160" fill="#ffffff" font-family="'Pretendard', sans-serif" font-size="38" font-weight="900" letter-spacing="-0.5">
+    출판사 무료 실전 모의고사
+  </text>
+  <text x="60" y="215" fill="#93c5fd" font-family="'Pretendard', sans-serif" font-size="34" font-weight="800">
+    원클릭 통합 마스터 허브
+  </text>
+
+  <!-- Subtitle / Meta -->
+  <text x="60" y="280" fill="#94a3b8" font-family="'Pretendard', sans-serif" font-size="18" font-weight="500">
+    해커스 · 시사일본어사 · 다락원 · 파고다 4대 출판사 공식 특별판
+  </text>
+  <text x="60" y="315" fill="#64748b" font-family="'Pretendard', sans-serif" font-size="16" font-weight="500">
+    청해 176문항 개별 음성 스트리밍 · OMR 자동 채점 · 2가지 풀이 모드
+  </text>
+
+  <!-- Bottom Badges -->
+  <g transform="translate(60, 360)">
+    <rect width="90" height="30" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="45" y="20" fill="#e2e8f0" font-family="'Pretendard', sans-serif" font-size="13" font-weight="600" text-anchor="middle">해커스 N3</text>
+  </g>
+  <g transform="translate(160, 360)">
+    <rect width="90" height="30" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="45" y="20" fill="#e2e8f0" font-family="'Pretendard', sans-serif" font-size="13" font-weight="600" text-anchor="middle">시사 N3</text>
+  </g>
+  <g transform="translate(260, 360)">
+    <rect width="110" height="30" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="55" y="20" fill="#e2e8f0" font-family="'Pretendard', sans-serif" font-size="13" font-weight="600" text-anchor="middle">다락원 N3 1·2회</text>
+  </g>
+  <g transform="translate(380, 360)">
+    <rect width="110" height="30" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="55" y="20" fill="#e2e8f0" font-family="'Pretendard', sans-serif" font-size="13" font-weight="600" text-anchor="middle">파고다 N2 3·4회</text>
+  </g>
+</svg>

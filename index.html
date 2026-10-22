@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JLPT 실전 모의고사 통합 풀이센터 (N3 · N2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', 'Noto Sans JP', sans-serif;
+      background: #f8fafc;
+      color: var(--gray-800);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .header-top {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+    }
+    .logo-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--gray-900);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mode-switch {
+      display: flex;
+      background: var(--gray-100);
+      padding: 3px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+    .mode-btn {
+      border: none;
+      background: transparent;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-500);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mode-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .btn-omr {
+      background: var(--gray-900);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-omr:hover { background: #334155; }
+
+    /* Nav Tabs */
+    .tab-nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--gray-500);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--gray-800); }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Sub-filters */
+    .sub-bar {
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 8px 20px;
+    }
+    .sub-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+    .filter-btn {
+      border: 1px solid var(--gray-300);
+      background: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-700);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .timer-badge {
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--danger);
+      background: var(--danger-light);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #fecaca;
+      display: none;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+    .test-info-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .test-info-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+    .test-info-meta {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+    .progress-bar-wrap {
+      width: 200px;
+      height: 8px;
+      background: var(--gray-200);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Question Cards */
+    .question-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .question-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .q-header {
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .q-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .q-num {
+      background: var(--gray-900);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+    .q-sec {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+    .q-mondai {
+      font-size: 12px;
+      color: var(--gray-500);
+      background: var(--gray-200);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Audio Player */
+    .audio-player-container {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      margin: 14px 18px 0;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .audio-play-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .audio-play-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+    .audio-play-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .audio-progress-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .audio-track-slider {
+      width: 100%;
+      height: 6px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .audio-time-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--gray-500);
+    }
+
+    /* Question Image Area */
+    .q-img-wrap {
+      padding: 18px;
+      display: flex;
+      justify-content: center;
+      background: #ffffff;
+    }
+    .q-img-wrap img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+    }
+
+    /* Options / Actions */
+    .q-options {
+      padding: 12px 18px 18px;
+      border-top: 1px solid var(--gray-100);
+      background: #fafafa;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .options-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .choice-btn {
+      flex: 1;
+      min-width: 60px;
+      height: 44px;
+      border: 1px solid var(--gray-300);
+      background: white;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .choice-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    .choice-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .choice-btn.correct {
+      background: var(--success) !important;
+      border-color: var(--success) !important;
+      color: white !important;
+    }
+    .choice-btn.wrong {
+      background: var(--danger) !important;
+      border-color: var(--danger) !important;
+      color: white !important;
+    }
+
+    /* Answer Feedback Box (Practice Mode) */
+    .feedback-box {
+      display: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .feedback-box.show-correct {
+      display: block;
+      background: var(--success-light);
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+    .feedback-box.show-wrong {
+      display: block;
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #fecaca;
+    }
+
+    /* OMR Drawer */
+    .omr-drawer {
+      position: fixed;
+      top: 0;
+      right: -360px;
+      width: 340px;
+      height: 100vh;
+      background: white;
+      border-left: 1px solid var(--gray-200);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+      transition: right 0.25s ease-in-out;
+    }
+    .omr-drawer.open { right: 0; }
+    .omr-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .omr-title { font-size: 16px; font-weight: 700; }
+    .omr-close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--gray-500);
+    }
+    .omr-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .omr-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .omr-item {
+      height: 48px;
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .omr-item:hover { border-color: var(--primary); }
+    .omr-item.filled { background: var(--gray-900); color: white; border-color: var(--gray-900); }
+    .omr-item.correct { background: var(--success); color: white; border-color: var(--success); }
+    .omr-item.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+    .omr-qnum { font-size: 11px; font-weight: 500; opacity: 0.8; }
+    .omr-ans { font-size: 15px; font-weight: 700; }
+    .omr-footer {
+      padding: 16px;
+      border-top: 1px solid var(--gray-200);
+      background: var(--gray-50);
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .submit-btn:hover { background: var(--primary-dark); }
+
+    /* Result Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: white;
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 4px solid var(--primary);
+      margin: 16px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .score-value { font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1; }
+    .score-label { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+    .modal-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .stat-box {
+      background: var(--gray-100);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .stat-val { font-size: 16px; font-weight: 700; }
+    .stat-lbl { font-size: 11px; color: var(--gray-500); }
+    .modal-close-btn {
+      background: var(--gray-900);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+      .header-top { flex-direction: column; align-items: flex-start; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .choice-btn { height: 40px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="logo-area">
+        <span class="logo-badge">JLPT MOCK</span>
+        <h1 class="logo-title">출판사 공식 무료 실전 모의고사 풀이센터</h1>
+      </div>
+      <div class="header-actions">
+        <div class="mode-switch">
+          <button class="mode-btn active" id="btnModePractice" onclick="setMode('practice')">연습 모드</button>
+          <button class="mode-btn" id="btnModeExam" onclick="setMode('exam')">실전 시험</button>
+        </div>
+        <button class="btn-omr" onclick="toggleOmr()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          OMR 카드
+        </button>
+      </div>
+    </div>
+
+    <!-- 6 Test Selector Tabs -->
+    <nav class="tab-nav" id="testNavTabs"></nav>
+
+    <!-- Sub filter Bar -->
+    <div class="sub-bar">
+      <div class="sub-container">
+        <div class="filter-group" id="secFilterGroup">
+          <button class="filter-btn active" onclick="filterSection('all')">전체 문항</button>
+          <button class="filter-btn" onclick="filterSection('vocab')">문자·어휘</button>
+          <button class="filter-btn" onclick="filterSection('grammar')">문법</button>
+          <button class="filter-btn" onclick="filterSection('reading')">독해</button>
+          <button class="filter-btn" onclick="filterSection('listening')">청해</button>
+        </div>
+        <div class="timer-badge" id="examTimer">⏱️ 00:00</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Question Flow -->
+  <main>
+    <div class="test-info-card" id="testInfoCard">
+      <div>
+        <div class="test-info-title" id="testTitleText">-</div>
+        <div class="test-info-meta" id="testMetaText">-</div>
+      </div>
+      <div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; font-weight:600;">
+          <span>진행도</span>
+          <span id="progressText">0 / 0</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="questionsContainer"></div>
+  </main>
+
+  <!-- OMR Drawer -->
+  <div class="omr-drawer" id="omrDrawer">
+    <div class="omr-header">
+      <div class="omr-title">OMR 답안지 (<span id="omrCountText">0/0</span>)</div>
+      <button class="omr-close-btn" onclick="toggleOmr()">&times;</button>
+    </div>
+    <div class="omr-body">
+      <div class="omr-grid" id="omrGrid"></div>
+    </div>
+    <div class="omr-footer">
+      <button class="submit-btn" onclick="gradeExam()">최종 답안 제출 및 채점</button>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+      <h2 class="modal-title">시험 채점 결과 보고서</h2>
+      <p style="font-size:13px; color:var(--gray-500);" id="modalTestName">-</p>
+      <div class="score-circle">
+        <div class="score-value" id="modalScoreVal">0%</div>
+        <div class="score-label" id="modalScoreFraction">0 / 0</div>
+      </div>
+      <div class="modal-stats">
+        <div class="stat-box">
+          <div class="stat-val" style="color:var(--success)" id="modalCorrectCnt">0</div>
+          <div class="stat-lbl">정답 수</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:var(--danger)" id="modalWrongCnt">0</div>
+          <div class="stat-lbl">오답 수</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:var(--gray-500)" id="modalUnansweredCnt">0</div>
+          <div class="stat-lbl">미풀이</div>
+        </div>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()">확인 및 오답 검토</button>
+    </div>
+  </div>
+
+  <script>
+    /* Inlined Master Dataset (622 Questions across 6 Tests) */
+    const MASTER_DATA = {"hackers_n3": {"config": {"id": "hackers_n3", "title": "해커스 JLPT N3 한권합격 실전 모의고사", "publisher": "해커스 (japan.hackers.com)", "level": "N3", "ans_key": "hackers_n3_vol1", "type": "n3_standard"}, "total_questions": 102, "questions": [{"id": "v_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/hackers_n3/v_q01.png", "audio": null, "answer": 2}, {"id": "v_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/hackers_n3/v_q02.png", "audio": null, "answer": 2}, {"id": "v_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/hackers_n3/v_q03.png", "audio": null, "answer": 1}, {"id": "v_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/hackers_n3/v_q04.png", "audio": null, "answer": 4}, {"id": "v_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/hackers_n3/v_q05.png", "audio": null, "answer": 2}, {"id": "v_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 6, "image": "crops/hackers_n3/v_q06.png", "audio": null, "answer": 3}, {"id": "v_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 7, "image": "crops/hackers_n3/v_q07.png", "audio": null, "answer": 4}, {"id": "v_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 8, "image": "crops/hackers_n3/v_q08.png", "audio": null, "answer": 3}, {"id": "v_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/hackers_n3/v_q09.png", "audio": null, "answer": 3}, {"id": "v_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/hackers_n3/v_q10.png", "audio": null, "answer": 2}, {"id": "v_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 11, "image": "crops/hackers_n3/v_q11.png", "audio": null, "answer": 1}, {"id": "v_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 12, "image": "crops/hackers_n3/v_q12.png", "audio": null, "answer": 4}, {"id": "v_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 13, "image": "crops/hackers_n3/v_q13.png", "audio": null, "answer": 2}, {"id": "v_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 14, "image": "crops/hackers_n3/v_q14.png", "audio": null, "answer": 3}, {"id": "v_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/hackers_n3/v_q15.png", "audio": null, "answer": 3}, {"id": "v_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 16, "image": "crops/hackers_n3/v_q16.png", "audio": null, "answer": 4}, {"id": "v_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 17, "image": "crops/hackers_n3/v_q17.png", "audio": null, "answer": 1}, {"id": "v_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 18, "image": "crops/hackers_n3/v_q18.png", "audio": null, "answer": 1}, {"id": "v_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 19, "image": "crops/hackers_n3/v_q19.png", "audio": null, "answer": 2}, {"id": "v_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 20, "image": "crops/hackers_n3/v_q20.png", "audio": null, "answer": 2}, {"id": "v_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 21, "image": "crops/hackers_n3/v_q21.png", "audio": null, "answer": 4}, {"id": "v_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 22, "image": "crops/hackers_n3/v_q22.png", "audio": null, "answer": 3}, {"id": "v_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 23, "image": "crops/hackers_n3/v_q23.png", "audio": null, "answer": 1}, {"id": "v_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 24, "image": "crops/hackers_n3/v_q24.png", "audio": null, "answer": 2}, {"id": "v_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 25, "image": "crops/hackers_n3/v_q25.png", "audio": null, "answer": 3}, {"id": "v_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 26, "image": "crops/hackers_n3/v_q26.png", "audio": null, "answer": 4}, {"id": "v_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 27, "image": "crops/hackers_n3/v_q27.png", "audio": null, "answer": 1}, {"id": "v_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 28, "image": "crops/hackers_n3/v_q28.png", "audio": null, "answer": 3}, {"id": "v_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 29, "image": "crops/hackers_n3/v_q29.png", "audio": null, "answer": 3}, {"id": "v_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 30, "image": "crops/hackers_n3/v_q30.png", "audio": null, "answer": 1}, {"id": "v_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 31, "image": "crops/hackers_n3/v_q31.png", "audio": null, "answer": 3}, {"id": "v_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 32, "image": "crops/hackers_n3/v_q32.png", "audio": null, "answer": 2}, {"id": "v_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 33, "image": "crops/hackers_n3/v_q33.png", "audio": null, "answer": 1}, {"id": "v_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 34, "image": "crops/hackers_n3/v_q34.png", "audio": null, "answer": 2}, {"id": "v_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 35, "image": "crops/hackers_n3/v_q35.png", "audio": null, "answer": 4}, {"id": "g_q01", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 1, "image": "crops/hackers_n3/g_q01.png", "audio": null, "answer": 2}, {"id": "g_q02", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 2, "image": "crops/hackers_n3/g_q02.png", "audio": null, "answer": 1}, {"id": "g_q03", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 3, "image": "crops/hackers_n3/g_q03.png", "audio": null, "answer": 2}, {"id": "g_q04", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 4, "image": "crops/hackers_n3/g_q04.png", "audio": null, "answer": 4}, {"id": "g_q05", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 5, "image": "crops/hackers_n3/g_q05.png", "audio": null, "answer": 1}, {"id": "g_q06", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 6, "image": "crops/hackers_n3/g_q06.png", "audio": null, "answer": 3}, {"id": "g_q07", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 7, "image": "crops/hackers_n3/g_q07.png", "audio": null, "answer": 2}, {"id": "g_q08", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 8, "image": "crops/hackers_n3/g_q08.png", "audio": null, "answer": 4}, {"id": "g_q09", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 9, "image": "crops/hackers_n3/g_q09.png", "audio": null, "answer": 3}, {"id": "g_q10", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 10, "image": "crops/hackers_n3/g_q10.png", "audio": null, "answer": 1}, {"id": "g_q11", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 11, "image": "crops/hackers_n3/g_q11.png", "audio": null, "answer": 3}, {"id": "g_q12", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 12, "image": "crops/hackers_n3/g_q12.png", "audio": null, "answer": 4}, {"id": "g_q13", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 13, "image": "crops/hackers_n3/g_q13.png", "audio": null, "answer": 3}, {"id": "g_q14", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 14, "image": "crops/hackers_n3/g_q14.png", "audio": null, "answer": 4}, {"id": "g_q15", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 15, "image": "crops/hackers_n3/g_q15.png", "audio": null, "answer": 1}, {"id": "g_q16", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 16, "image": "crops/hackers_n3/g_q16.png", "audio": null, "answer": 2}, {"id": "g_q17", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 17, "image": "crops/hackers_n3/g_q17.png", "audio": null, "answer": 1}, {"id": "g_q18", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 18, "image": "crops/hackers_n3/g_q18.png", "audio": null, "answer": 1}, {"id": "g_q19", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 19, "image": "crops/hackers_n3/g_q19.png", "audio": null, "answer": 4}, {"id": "g_q20", "global_num": 55, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 20, "image": "crops/hackers_n3/g_q20.png", "audio": null, "answer": 2}, {"id": "g_q21", "global_num": 56, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 21, "image": "crops/hackers_n3/g_q21.png", "audio": null, "answer": 3}, {"id": "g_q22", "global_num": 57, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 22, "image": "crops/hackers_n3/g_q22.png", "audio": null, "answer": 4}, {"id": "g_q23", "global_num": 58, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 23, "image": "crops/hackers_n3/g_q23.png", "audio": null, "answer": 1}, {"id": "r_q24", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 24, "image": "crops/hackers_n3/r_q24.png", "audio": null, "answer": 2}, {"id": "r_q25", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 25, "image": "crops/hackers_n3/r_q25.png", "audio": null, "answer": 4}, {"id": "r_q26", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 26, "image": "crops/hackers_n3/r_q26.png", "audio": null, "answer": 2}, {"id": "r_q27", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 27, "image": "crops/hackers_n3/r_q27.png", "audio": null, "answer": 2}, {"id": "r_q28", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 28, "image": "crops/hackers_n3/r_q28.png", "audio": null, "answer": 4}, {"id": "r_q29", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 29, "image": "crops/hackers_n3/r_q29.png", "audio": null, "answer": 1}, {"id": "r_q30", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 30, "image": "crops/hackers_n3/r_q30.png", "audio": null, "answer": 3}, {"id": "r_q31", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 31, "image": "crops/hackers_n3/r_q31.png", "audio": null, "answer": 3}, {"id": "r_q32", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 32, "image": "crops/hackers_n3/r_q32.png", "audio": null, "answer": 2}, {"id": "r_q33", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 33, "image": "crops/hackers_n3/r_q33.png", "audio": null, "answer": 3}, {"id": "r_q34", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 34, "image": "crops/hackers_n3/r_q34.png", "audio": null, "answer": 2}, {"id": "r_q35", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 35, "image": "crops/hackers_n3/r_q35.png", "audio": null, "answer": 3}, {"id": "r_q36", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 36, "image": "crops/hackers_n3/r_q36.png", "audio": null, "answer": 4}, {"id": "r_q37", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 37, "image": "crops/hackers_n3/r_q37.png", "audio": null, "answer": 4}, {"id": "r_q38", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 38, "image": "crops/hackers_n3/r_q38.png", "audio": null, "answer": 3}, {"id": "r_q39", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 39, "image": "crops/hackers_n3/r_q39.png", "audio": null, "answer": 4}, {"id": "l_q01", "global_num": 75, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/hackers_n3/l_q01.png", "audio": "audio_clips/hackers_n3/l_q01.mp3", "answer": 2}, {"id": "l_q02", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/hackers_n3/l_q02.png", "audio": "audio_clips/hackers_n3/l_q02.mp3", "answer": 3}, {"id": "l_q03", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/hackers_n3/l_q03.png", "audio": "audio_clips/hackers_n3/l_q03.mp3", "answer": 3}, {"id": "l_q04", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/hackers_n3/l_q04.png", "audio": "audio_clips/hackers_n3/l_q04.mp3", "answer": 3}, {"id": "l_q05", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/hackers_n3/l_q05.png", "audio": "audio_clips/hackers_n3/l_q05.mp3", "answer": 4}, {"id": "l_q06", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 6, "image": "crops/hackers_n3/l_q06.png", "audio": "audio_clips/hackers_n3/l_q06.mp3", "answer": 2}, {"id": "l_q07", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/hackers_n3/l_q07.png", "audio": "audio_clips/hackers_n3/l_q07.mp3", "answer": 2}, {"id": "l_q08", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/hackers_n3/l_q08.png", "audio": "audio_clips/hackers_n3/l_q08.mp3", "answer": 4}, {"id": "l_q09", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/hackers_n3/l_q09.png", "audio": "audio_clips/hackers_n3/l_q09.mp3", "answer": 3}, {"id": "l_q10", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/hackers_n3/l_q10.png", "audio": "audio_clips/hackers_n3/l_q10.mp3", "answer": 3}, {"id": "l_q11", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/hackers_n3/l_q11.png", "audio": "audio_clips/hackers_n3/l_q11.mp3", "answer": 1}, {"id": "l_q12", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 12, "image": "crops/hackers_n3/l_q12.png", "audio": "audio_clips/hackers_n3/l_q12.mp3", "answer": 3}, {"id": "l_q13", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/hackers_n3/l_q13.png", "audio": "audio_clips/hackers_n3/l_q13.mp3", "answer": 3}, {"id": "l_q14", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/hackers_n3/l_q14.png", "audio": "audio_clips/hackers_n3/l_q14.mp3", "answer": 2}, {"id": "l_q15", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/hackers_n3/l_q15.png", "audio": "audio_clips/hackers_n3/l_q15.mp3", "answer": 4}, {"id": "l_q16", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 16, "image": "crops/hackers_n3/l_q16.png", "audio": "audio_clips/hackers_n3/l_q16.mp3", "answer": 3}, {"id": "l_q17", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/hackers_n3/l_q17.png", "audio": "audio_clips/hackers_n3/l_q17.mp3", "answer": 1}, {"id": "l_q18", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/hackers_n3/l_q18.png", "audio": "audio_clips/hackers_n3/l_q18.mp3", "answer": 3}, {"id": "l_q19", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/hackers_n3/l_q19.png", "audio": "audio_clips/hackers_n3/l_q19.mp3", "answer": 2}, {"id": "l_q20", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 20, "image": "crops/hackers_n3/l_q20.png", "audio": "audio_clips/hackers_n3/l_q20.mp3", "answer": 1}, {"id": "l_q21", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 21, "image": "crops/hackers_n3/l_q21.png", "audio": "audio_clips/hackers_n3/l_q21.mp3", "answer": 3}, {"id": "l_q22", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 22, "image": "crops/hackers_n3/l_q22.png", "audio": "audio_clips/hackers_n3/l_q22.mp3", "answer": 1}, {"id": "l_q23", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 23, "image": "crops/hackers_n3/l_q23.png", "audio": "audio_clips/hackers_n3/l_q23.mp3", "answer": 2}, {"id": "l_q24", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 24, "image": "crops/hackers_n3/l_q24.png", "audio": "audio_clips/hackers_n3/l_q24.mp3", "answer": 2}, {"id": "l_q25", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 25, "image": "crops/hackers_n3/l_q25.png", "audio": "audio_clips/hackers_n3/l_q25.mp3", "answer": 3}, {"id": "l_q26", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 26, "image": "crops/hackers_n3/l_q26.png", "audio": "audio_clips/hackers_n3/l_q26.mp3", "answer": 2}, {"id": "l_q27", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 27, "image": "crops/hackers_n3/l_q27.png", "audio": "audio_clips/hackers_n3/l_q27.mp3", "answer": 1}, {"id": "l_q28", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 28, "image": "crops/hackers_n3/l_q28.png", "audio": "audio_clips/hackers_n3/l_q28.mp3", "answer": 3}]}, "sisa_n3": {"config": {"id": "sisa_n3", "title": "시사일본어사 JLPT N3 합격시그널 실전 모의고사", "publisher": "시사일본어사 (sisabooks.com)", "level": "N3", "ans_key": "sisa_n3_vol1", "type": "n3_standard"}, "total_questions": 102, "questions": [{"id": "v_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/sisa_n3/v_q01.png", "audio": null, "answer": 1}, {"id": "v_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/sisa_n3/v_q02.png", "audio": null, "answer": 3}, {"id": "v_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/sisa_n3/v_q03.png", "audio": null, "answer": 2}, {"id": "v_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/sisa_n3/v_q04.png", "audio": null, "answer": 3}, {"id": "v_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/sisa_n3/v_q05.png", "audio": null, "answer": 4}, {"id": "v_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 6, "image": "crops/sisa_n3/v_q06.png", "audio": null, "answer": 2}, {"id": "v_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 7, "image": "crops/sisa_n3/v_q07.png", "audio": null, "answer": 1}, {"id": "v_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 8, "image": "crops/sisa_n3/v_q08.png", "audio": null, "answer": 1}, {"id": "v_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/sisa_n3/v_q09.png", "audio": null, "answer": 4}, {"id": "v_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/sisa_n3/v_q10.png", "audio": null, "answer": 4}, {"id": "v_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 11, "image": "crops/sisa_n3/v_q11.png", "audio": null, "answer": 3}, {"id": "v_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 12, "image": "crops/sisa_n3/v_q12.png", "audio": null, "answer": 2}, {"id": "v_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 13, "image": "crops/sisa_n3/v_q13.png", "audio": null, "answer": 1}, {"id": "v_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 14, "image": "crops/sisa_n3/v_q14.png", "audio": null, "answer": 3}, {"id": "v_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/sisa_n3/v_q15.png", "audio": null, "answer": 1}, {"id": "v_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 16, "image": "crops/sisa_n3/v_q16.png", "audio": null, "answer": 4}, {"id": "v_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 17, "image": "crops/sisa_n3/v_q17.png", "audio": null, "answer": 4}, {"id": "v_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 18, "image": "crops/sisa_n3/v_q18.png", "audio": null, "answer": 2}, {"id": "v_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 19, "image": "crops/sisa_n3/v_q19.png", "audio": null, "answer": 3}, {"id": "v_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 20, "image": "crops/sisa_n3/v_q20.png", "audio": null, "answer": 2}, {"id": "v_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 21, "image": "crops/sisa_n3/v_q21.png", "audio": null, "answer": 3}, {"id": "v_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 22, "image": "crops/sisa_n3/v_q22.png", "audio": null, "answer": 1}, {"id": "v_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 23, "image": "crops/sisa_n3/v_q23.png", "audio": null, "answer": 3}, {"id": "v_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 24, "image": "crops/sisa_n3/v_q24.png", "audio": null, "answer": 4}, {"id": "v_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 25, "image": "crops/sisa_n3/v_q25.png", "audio": null, "answer": 3}, {"id": "v_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 26, "image": "crops/sisa_n3/v_q26.png", "audio": null, "answer": 4}, {"id": "v_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 27, "image": "crops/sisa_n3/v_q27.png", "audio": null, "answer": 3}, {"id": "v_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 28, "image": "crops/sisa_n3/v_q28.png", "audio": null, "answer": 4}, {"id": "v_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 29, "image": "crops/sisa_n3/v_q29.png", "audio": null, "answer": 1}, {"id": "v_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 30, "image": "crops/sisa_n3/v_q30.png", "audio": null, "answer": 2}, {"id": "v_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 31, "image": "crops/sisa_n3/v_q31.png", "audio": null, "answer": 3}, {"id": "v_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 32, "image": "crops/sisa_n3/v_q32.png", "audio": null, "answer": 3}, {"id": "v_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 33, "image": "crops/sisa_n3/v_q33.png", "audio": null, "answer": 1}, {"id": "v_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 34, "image": "crops/sisa_n3/v_q34.png", "audio": null, "answer": 2}, {"id": "v_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 35, "image": "crops/sisa_n3/v_q35.png", "audio": null, "answer": 1}, {"id": "g_q01", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 1, "image": "crops/sisa_n3/g_q01.png", "audio": null, "answer": 1}, {"id": "g_q02", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 2, "image": "crops/sisa_n3/g_q02.png", "audio": null, "answer": 3}, {"id": "g_q03", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 3, "image": "crops/sisa_n3/g_q03.png", "audio": null, "answer": 4}, {"id": "g_q04", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 4, "image": "crops/sisa_n3/g_q04.png", "audio": null, "answer": 3}, {"id": "g_q05", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 5, "image": "crops/sisa_n3/g_q05.png", "audio": null, "answer": 4}, {"id": "g_q06", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 6, "image": "crops/sisa_n3/g_q06.png", "audio": null, "answer": 3}, {"id": "g_q07", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 7, "image": "crops/sisa_n3/g_q07.png", "audio": null, "answer": 3}, {"id": "g_q08", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 8, "image": "crops/sisa_n3/g_q08.png", "audio": null, "answer": 1}, {"id": "g_q09", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 9, "image": "crops/sisa_n3/g_q09.png", "audio": null, "answer": 2}, {"id": "g_q10", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 10, "image": "crops/sisa_n3/g_q10.png", "audio": null, "answer": 4}, {"id": "g_q11", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 11, "image": "crops/sisa_n3/g_q11.png", "audio": null, "answer": 3}, {"id": "g_q12", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 12, "image": "crops/sisa_n3/g_q12.png", "audio": null, "answer": 2}, {"id": "g_q13", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 13, "image": "crops/sisa_n3/g_q13.png", "audio": null, "answer": 1}, {"id": "g_q14", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 14, "image": "crops/sisa_n3/g_q14.png", "audio": null, "answer": 2}, {"id": "g_q15", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 15, "image": "crops/sisa_n3/g_q15.png", "audio": null, "answer": 4}, {"id": "g_q16", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 16, "image": "crops/sisa_n3/g_q16.png", "audio": null, "answer": 3}, {"id": "g_q17", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 17, "image": "crops/sisa_n3/g_q17.png", "audio": null, "answer": 1}, {"id": "g_q18", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 18, "image": "crops/sisa_n3/g_q18.png", "audio": null, "answer": 3}, {"id": "g_q19", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 19, "image": "crops/sisa_n3/g_q19.png", "audio": null, "answer": 4}, {"id": "g_q20", "global_num": 55, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 20, "image": "crops/sisa_n3/g_q20.png", "audio": null, "answer": 1}, {"id": "g_q21", "global_num": 56, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 21, "image": "crops/sisa_n3/g_q21.png", "audio": null, "answer": 4}, {"id": "g_q22", "global_num": 57, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 22, "image": "crops/sisa_n3/g_q22.png", "audio": null, "answer": 1}, {"id": "g_q23", "global_num": 58, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 23, "image": "crops/sisa_n3/g_q23.png", "audio": null, "answer": 2}, {"id": "r_q24", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 24, "image": "crops/sisa_n3/r_q24.png", "audio": null, "answer": 3}, {"id": "r_q25", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 25, "image": "crops/sisa_n3/r_q25.png", "audio": null, "answer": 3}, {"id": "r_q26", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 26, "image": "crops/sisa_n3/r_q26.png", "audio": null, "answer": 3}, {"id": "r_q27", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 27, "image": "crops/sisa_n3/r_q27.png", "audio": null, "answer": 1}, {"id": "r_q28", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 28, "image": "crops/sisa_n3/r_q28.png", "audio": null, "answer": 3}, {"id": "r_q29", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 29, "image": "crops/sisa_n3/r_q29.png", "audio": null, "answer": 2}, {"id": "r_q30", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 30, "image": "crops/sisa_n3/r_q30.png", "audio": null, "answer": 1}, {"id": "r_q31", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 31, "image": "crops/sisa_n3/r_q31.png", "audio": null, "answer": 3}, {"id": "r_q32", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 32, "image": "crops/sisa_n3/r_q32.png", "audio": null, "answer": 1}, {"id": "r_q33", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 33, "image": "crops/sisa_n3/r_q33.png", "audio": null, "answer": 4}, {"id": "r_q34", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 34, "image": "crops/sisa_n3/r_q34.png", "audio": null, "answer": 2}, {"id": "r_q35", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 35, "image": "crops/sisa_n3/r_q35.png", "audio": null, "answer": 1}, {"id": "r_q36", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 36, "image": "crops/sisa_n3/r_q36.png", "audio": null, "answer": 3}, {"id": "r_q37", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 37, "image": "crops/sisa_n3/r_q37.png", "audio": null, "answer": 4}, {"id": "r_q38", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 38, "image": "crops/sisa_n3/r_q38.png", "audio": null, "answer": 3}, {"id": "r_q39", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 39, "image": "crops/sisa_n3/r_q39.png", "audio": null, "answer": 4}, {"id": "l_q01", "global_num": 75, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/sisa_n3/l_q01.png", "audio": "audio_clips/sisa_n3/l_q01.mp3", "answer": 3}, {"id": "l_q02", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/sisa_n3/l_q02.png", "audio": "audio_clips/sisa_n3/l_q02.mp3", "answer": 1}, {"id": "l_q03", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/sisa_n3/l_q03.png", "audio": "audio_clips/sisa_n3/l_q03.mp3", "answer": 3}, {"id": "l_q04", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/sisa_n3/l_q04.png", "audio": "audio_clips/sisa_n3/l_q04.mp3", "answer": 3}, {"id": "l_q05", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/sisa_n3/l_q05.png", "audio": "audio_clips/sisa_n3/l_q05.mp3", "answer": 1}, {"id": "l_q06", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 6, "image": "crops/sisa_n3/l_q06.png", "audio": "audio_clips/sisa_n3/l_q06.mp3", "answer": 4}, {"id": "l_q07", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/sisa_n3/l_q07.png", "audio": "audio_clips/sisa_n3/l_q07.mp3", "answer": 2}, {"id": "l_q08", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/sisa_n3/l_q08.png", "audio": "audio_clips/sisa_n3/l_q08.mp3", "answer": 4}, {"id": "l_q09", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/sisa_n3/l_q09.png", "audio": "audio_clips/sisa_n3/l_q09.mp3", "answer": 1}, {"id": "l_q10", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/sisa_n3/l_q10.png", "audio": "audio_clips/sisa_n3/l_q10.mp3", "answer": 3}, {"id": "l_q11", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/sisa_n3/l_q11.png", "audio": "audio_clips/sisa_n3/l_q11.mp3", "answer": 3}, {"id": "l_q12", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 12, "image": "crops/sisa_n3/l_q12.png", "audio": "audio_clips/sisa_n3/l_q12.mp3", "answer": 1}, {"id": "l_q13", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/sisa_n3/l_q13.png", "audio": "audio_clips/sisa_n3/l_q13.mp3", "answer": 3}, {"id": "l_q14", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/sisa_n3/l_q14.png", "audio": "audio_clips/sisa_n3/l_q14.mp3", "answer": 4}, {"id": "l_q15", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/sisa_n3/l_q15.png", "audio": "audio_clips/sisa_n3/l_q15.mp3", "answer": 2}, {"id": "l_q16", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 16, "image": "crops/sisa_n3/l_q16.png", "audio": "audio_clips/sisa_n3/l_q16.mp3", "answer": 2}, {"id": "l_q17", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/sisa_n3/l_q17.png", "audio": "audio_clips/sisa_n3/l_q17.mp3", "answer": 2}, {"id": "l_q18", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/sisa_n3/l_q18.png", "audio": "audio_clips/sisa_n3/l_q18.mp3", "answer": 1}, {"id": "l_q19", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/sisa_n3/l_q19.png", "audio": "audio_clips/sisa_n3/l_q19.mp3", "answer": 3}, {"id": "l_q20", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 20, "image": "crops/sisa_n3/l_q20.png", "audio": "audio_clips/sisa_n3/l_q20.mp3", "answer": 3}, {"id": "l_q21", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 21, "image": "crops/sisa_n3/l_q21.png", "audio": "audio_clips/sisa_n3/l_q21.mp3", "answer": 2}, {"id": "l_q22", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 22, "image": "crops/sisa_n3/l_q22.png", "audio": "audio_clips/sisa_n3/l_q22.mp3", "answer": 2}, {"id": "l_q23", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 23, "image": "crops/sisa_n3/l_q23.png", "audio": "audio_clips/sisa_n3/l_q23.mp3", "answer": 3}, {"id": "l_q24", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 24, "image": "crops/sisa_n3/l_q24.png", "audio": "audio_clips/sisa_n3/l_q24.mp3", "answer": 3}, {"id": "l_q25", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 25, "image": "crops/sisa_n3/l_q25.png", "audio": "audio_clips/sisa_n3/l_q25.mp3", "answer": 1}, {"id": "l_q26", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 26, "image": "crops/sisa_n3/l_q26.png", "audio": "audio_clips/sisa_n3/l_q26.mp3", "answer": 2}, {"id": "l_q27", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 27, "image": "crops/sisa_n3/l_q27.png", "audio": "audio_clips/sisa_n3/l_q27.mp3", "answer": 2}, {"id": "l_q28", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 28, "image": "crops/sisa_n3/l_q28.png", "audio": "audio_clips/sisa_n3/l_q28.mp3", "answer": 1}]}, "darakwon_n3_vol1": {"config": {"id": "darakwon_n3_vol1", "title": "다락원 한권으로 끝내기 N3 실전 모의고사 1회", "publisher": "다락원 (darakwon.co.kr)", "level": "N3", "ans_key": "darakwon_n3_vol1", "type": "n3_standard"}, "total_questions": 102, "questions": [{"id": "v_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol1/v_q01.png", "audio": null, "answer": 2}, {"id": "v_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol1/v_q02.png", "audio": null, "answer": 1}, {"id": "v_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol1/v_q03.png", "audio": null, "answer": 3}, {"id": "v_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol1/v_q04.png", "audio": null, "answer": 4}, {"id": "v_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol1/v_q05.png", "audio": null, "answer": 2}, {"id": "v_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol1/v_q06.png", "audio": null, "answer": 4}, {"id": "v_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 7, "image": "crops/darakwon_n3_vol1/v_q07.png", "audio": null, "answer": 1}, {"id": "v_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 8, "image": "crops/darakwon_n3_vol1/v_q08.png", "audio": null, "answer": 3}, {"id": "v_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/darakwon_n3_vol1/v_q09.png", "audio": null, "answer": 1}, {"id": "v_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/darakwon_n3_vol1/v_q10.png", "audio": null, "answer": 3}, {"id": "v_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 11, "image": "crops/darakwon_n3_vol1/v_q11.png", "audio": null, "answer": 1}, {"id": "v_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 12, "image": "crops/darakwon_n3_vol1/v_q12.png", "audio": null, "answer": 4}, {"id": "v_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 13, "image": "crops/darakwon_n3_vol1/v_q13.png", "audio": null, "answer": 2}, {"id": "v_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 14, "image": "crops/darakwon_n3_vol1/v_q14.png", "audio": null, "answer": 2}, {"id": "v_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/darakwon_n3_vol1/v_q15.png", "audio": null, "answer": 3}, {"id": "v_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 16, "image": "crops/darakwon_n3_vol1/v_q16.png", "audio": null, "answer": 2}, {"id": "v_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 17, "image": "crops/darakwon_n3_vol1/v_q17.png", "audio": null, "answer": 1}, {"id": "v_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 18, "image": "crops/darakwon_n3_vol1/v_q18.png", "audio": null, "answer": 4}, {"id": "v_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 19, "image": "crops/darakwon_n3_vol1/v_q19.png", "audio": null, "answer": 1}, {"id": "v_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 20, "image": "crops/darakwon_n3_vol1/v_q20.png", "audio": null, "answer": 4}, {"id": "v_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 21, "image": "crops/darakwon_n3_vol1/v_q21.png", "audio": null, "answer": 2}, {"id": "v_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 22, "image": "crops/darakwon_n3_vol1/v_q22.png", "audio": null, "answer": 3}, {"id": "v_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 23, "image": "crops/darakwon_n3_vol1/v_q23.png", "audio": null, "answer": 3}, {"id": "v_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 24, "image": "crops/darakwon_n3_vol1/v_q24.png", "audio": null, "answer": 1}, {"id": "v_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 25, "image": "crops/darakwon_n3_vol1/v_q25.png", "audio": null, "answer": 4}, {"id": "v_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 26, "image": "crops/darakwon_n3_vol1/v_q26.png", "audio": null, "answer": 4}, {"id": "v_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 27, "image": "crops/darakwon_n3_vol1/v_q27.png", "audio": null, "answer": 3}, {"id": "v_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 28, "image": "crops/darakwon_n3_vol1/v_q28.png", "audio": null, "answer": 1}, {"id": "v_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 29, "image": "crops/darakwon_n3_vol1/v_q29.png", "audio": null, "answer": 2}, {"id": "v_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 30, "image": "crops/darakwon_n3_vol1/v_q30.png", "audio": null, "answer": 2}, {"id": "v_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 31, "image": "crops/darakwon_n3_vol1/v_q31.png", "audio": null, "answer": 3}, {"id": "v_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 32, "image": "crops/darakwon_n3_vol1/v_q32.png", "audio": null, "answer": 3}, {"id": "v_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 33, "image": "crops/darakwon_n3_vol1/v_q33.png", "audio": null, "answer": 2}, {"id": "v_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 34, "image": "crops/darakwon_n3_vol1/v_q34.png", "audio": null, "answer": 4}, {"id": "v_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 35, "image": "crops/darakwon_n3_vol1/v_q35.png", "audio": null, "answer": 1}, {"id": "g_q01", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol1/g_q01.png", "audio": null, "answer": 4}, {"id": "g_q02", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol1/g_q02.png", "audio": null, "answer": 3}, {"id": "g_q03", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol1/g_q03.png", "audio": null, "answer": 2}, {"id": "g_q04", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol1/g_q04.png", "audio": null, "answer": 1}, {"id": "g_q05", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol1/g_q05.png", "audio": null, "answer": 4}, {"id": "g_q06", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol1/g_q06.png", "audio": null, "answer": 1}, {"id": "g_q07", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 7, "image": "crops/darakwon_n3_vol1/g_q07.png", "audio": null, "answer": 2}, {"id": "g_q08", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 8, "image": "crops/darakwon_n3_vol1/g_q08.png", "audio": null, "answer": 1}, {"id": "g_q09", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 9, "image": "crops/darakwon_n3_vol1/g_q09.png", "audio": null, "answer": 2}, {"id": "g_q10", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 10, "image": "crops/darakwon_n3_vol1/g_q10.png", "audio": null, "answer": 3}, {"id": "g_q11", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 11, "image": "crops/darakwon_n3_vol1/g_q11.png", "audio": null, "answer": 4}, {"id": "g_q12", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 12, "image": "crops/darakwon_n3_vol1/g_q12.png", "audio": null, "answer": 3}, {"id": "g_q13", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 13, "image": "crops/darakwon_n3_vol1/g_q13.png", "audio": null, "answer": 4}, {"id": "g_q14", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 14, "image": "crops/darakwon_n3_vol1/g_q14.png", "audio": null, "answer": 1}, {"id": "g_q15", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 15, "image": "crops/darakwon_n3_vol1/g_q15.png", "audio": null, "answer": 3}, {"id": "g_q16", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 16, "image": "crops/darakwon_n3_vol1/g_q16.png", "audio": null, "answer": 2}, {"id": "g_q17", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 17, "image": "crops/darakwon_n3_vol1/g_q17.png", "audio": null, "answer": 1}, {"id": "g_q18", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 18, "image": "crops/darakwon_n3_vol1/g_q18.png", "audio": null, "answer": 4}, {"id": "g_q19", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 19, "image": "crops/darakwon_n3_vol1/g_q19.png", "audio": null, "answer": 2}, {"id": "g_q20", "global_num": 55, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 20, "image": "crops/darakwon_n3_vol1/g_q20.png", "audio": null, "answer": 4}, {"id": "g_q21", "global_num": 56, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 21, "image": "crops/darakwon_n3_vol1/g_q21.png", "audio": null, "answer": 1}, {"id": "g_q22", "global_num": 57, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 22, "image": "crops/darakwon_n3_vol1/g_q22.png", "audio": null, "answer": 3}, {"id": "g_q23", "global_num": 58, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 23, "image": "crops/darakwon_n3_vol1/g_q23.png", "audio": null, "answer": 4}, {"id": "r_q24", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 24, "image": "crops/darakwon_n3_vol1/r_q24.png", "audio": null, "answer": 4}, {"id": "r_q25", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 25, "image": "crops/darakwon_n3_vol1/r_q25.png", "audio": null, "answer": 3}, {"id": "r_q26", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 26, "image": "crops/darakwon_n3_vol1/r_q26.png", "audio": null, "answer": 3}, {"id": "r_q27", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 27, "image": "crops/darakwon_n3_vol1/r_q27.png", "audio": null, "answer": 2}, {"id": "r_q28", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 28, "image": "crops/darakwon_n3_vol1/r_q28.png", "audio": null, "answer": 1}, {"id": "r_q29", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 29, "image": "crops/darakwon_n3_vol1/r_q29.png", "audio": null, "answer": 3}, {"id": "r_q30", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 30, "image": "crops/darakwon_n3_vol1/r_q30.png", "audio": null, "answer": 3}, {"id": "r_q31", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 31, "image": "crops/darakwon_n3_vol1/r_q31.png", "audio": null, "answer": 2}, {"id": "r_q32", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 32, "image": "crops/darakwon_n3_vol1/r_q32.png", "audio": null, "answer": 4}, {"id": "r_q33", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 33, "image": "crops/darakwon_n3_vol1/r_q33.png", "audio": null, "answer": 3}, {"id": "r_q34", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 34, "image": "crops/darakwon_n3_vol1/r_q34.png", "audio": null, "answer": 1}, {"id": "r_q35", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 35, "image": "crops/darakwon_n3_vol1/r_q35.png", "audio": null, "answer": 3}, {"id": "r_q36", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 36, "image": "crops/darakwon_n3_vol1/r_q36.png", "audio": null, "answer": 1}, {"id": "r_q37", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 37, "image": "crops/darakwon_n3_vol1/r_q37.png", "audio": null, "answer": 3}, {"id": "r_q38", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 38, "image": "crops/darakwon_n3_vol1/r_q38.png", "audio": null, "answer": 2}, {"id": "r_q39", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 39, "image": "crops/darakwon_n3_vol1/r_q39.png", "audio": null, "answer": 3}, {"id": "l_q01", "global_num": 75, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol1/l_q01.png", "audio": "audio_clips/darakwon_n3_vol1/l_q01.mp3", "answer": 3}, {"id": "l_q02", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol1/l_q02.png", "audio": "audio_clips/darakwon_n3_vol1/l_q02.mp3", "answer": 2}, {"id": "l_q03", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol1/l_q03.png", "audio": "audio_clips/darakwon_n3_vol1/l_q03.mp3", "answer": 3}, {"id": "l_q04", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol1/l_q04.png", "audio": "audio_clips/darakwon_n3_vol1/l_q04.mp3", "answer": 2}, {"id": "l_q05", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol1/l_q05.png", "audio": "audio_clips/darakwon_n3_vol1/l_q05.mp3", "answer": 2}, {"id": "l_q06", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol1/l_q06.png", "audio": "audio_clips/darakwon_n3_vol1/l_q06.mp3", "answer": 3}, {"id": "l_q07", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/darakwon_n3_vol1/l_q07.png", "audio": "audio_clips/darakwon_n3_vol1/l_q07.mp3", "answer": 2}, {"id": "l_q08", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/darakwon_n3_vol1/l_q08.png", "audio": "audio_clips/darakwon_n3_vol1/l_q08.mp3", "answer": 4}, {"id": "l_q09", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/darakwon_n3_vol1/l_q09.png", "audio": "audio_clips/darakwon_n3_vol1/l_q09.mp3", "answer": 2}, {"id": "l_q10", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/darakwon_n3_vol1/l_q10.png", "audio": "audio_clips/darakwon_n3_vol1/l_q10.mp3", "answer": 4}, {"id": "l_q11", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/darakwon_n3_vol1/l_q11.png", "audio": "audio_clips/darakwon_n3_vol1/l_q11.mp3", "answer": 3}, {"id": "l_q12", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 12, "image": "crops/darakwon_n3_vol1/l_q12.png", "audio": "audio_clips/darakwon_n3_vol1/l_q12.mp3", "answer": 4}, {"id": "l_q13", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/darakwon_n3_vol1/l_q13.png", "audio": "audio_clips/darakwon_n3_vol1/l_q13.mp3", "answer": 2}, {"id": "l_q14", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/darakwon_n3_vol1/l_q14.png", "audio": "audio_clips/darakwon_n3_vol1/l_q14.mp3", "answer": 3}, {"id": "l_q15", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/darakwon_n3_vol1/l_q15.png", "audio": "audio_clips/darakwon_n3_vol1/l_q15.mp3", "answer": 1}, {"id": "l_q16", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 16, "image": "crops/darakwon_n3_vol1/l_q16.png", "audio": "audio_clips/darakwon_n3_vol1/l_q16.mp3", "answer": 2}, {"id": "l_q17", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/darakwon_n3_vol1/l_q17.png", "audio": "audio_clips/darakwon_n3_vol1/l_q17.mp3", "answer": 3}, {"id": "l_q18", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/darakwon_n3_vol1/l_q18.png", "audio": "audio_clips/darakwon_n3_vol1/l_q18.mp3", "answer": 3}, {"id": "l_q19", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/darakwon_n3_vol1/l_q19.png", "audio": "audio_clips/darakwon_n3_vol1/l_q19.mp3", "answer": 1}, {"id": "l_q20", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 20, "image": "crops/darakwon_n3_vol1/l_q20.png", "audio": "audio_clips/darakwon_n3_vol1/l_q20.mp3", "answer": 1}, {"id": "l_q21", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 21, "image": "crops/darakwon_n3_vol1/l_q21.png", "audio": "audio_clips/darakwon_n3_vol1/l_q21.mp3", "answer": 2}, {"id": "l_q22", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 22, "image": "crops/darakwon_n3_vol1/l_q22.png", "audio": "audio_clips/darakwon_n3_vol1/l_q22.mp3", "answer": 3}, {"id": "l_q23", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 23, "image": "crops/darakwon_n3_vol1/l_q23.png", "audio": "audio_clips/darakwon_n3_vol1/l_q23.mp3", "answer": 3}, {"id": "l_q24", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 24, "image": "crops/darakwon_n3_vol1/l_q24.png", "audio": "audio_clips/darakwon_n3_vol1/l_q24.mp3", "answer": 3}, {"id": "l_q25", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 25, "image": "crops/darakwon_n3_vol1/l_q25.png", "audio": "audio_clips/darakwon_n3_vol1/l_q25.mp3", "answer": 3}, {"id": "l_q26", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 26, "image": "crops/darakwon_n3_vol1/l_q26.png", "audio": "audio_clips/darakwon_n3_vol1/l_q26.mp3", "answer": 2}, {"id": "l_q27", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 27, "image": "crops/darakwon_n3_vol1/l_q27.png", "audio": "audio_clips/darakwon_n3_vol1/l_q27.mp3", "answer": 1}, {"id": "l_q28", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 28, "image": "crops/darakwon_n3_vol1/l_q28.png", "audio": "audio_clips/darakwon_n3_vol1/l_q28.mp3", "answer": 3}]}, "darakwon_n3_vol2": {"config": {"id": "darakwon_n3_vol2", "title": "다락원 한권으로 끝내기 N3 실전 모의고사 2회", "publisher": "다락원 (darakwon.co.kr)", "level": "N3", "ans_key": "darakwon_n3_vol2", "type": "n3_standard"}, "total_questions": 102, "questions": [{"id": "v_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol2/v_q01.png", "audio": null, "answer": 4}, {"id": "v_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol2/v_q02.png", "audio": null, "answer": 2}, {"id": "v_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol2/v_q03.png", "audio": null, "answer": 3}, {"id": "v_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol2/v_q04.png", "audio": null, "answer": 1}, {"id": "v_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol2/v_q05.png", "audio": null, "answer": 2}, {"id": "v_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol2/v_q06.png", "audio": null, "answer": 4}, {"id": "v_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 7, "image": "crops/darakwon_n3_vol2/v_q07.png", "audio": null, "answer": 3}, {"id": "v_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 8, "image": "crops/darakwon_n3_vol2/v_q08.png", "audio": null, "answer": 1}, {"id": "v_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/darakwon_n3_vol2/v_q09.png", "audio": null, "answer": 2}, {"id": "v_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/darakwon_n3_vol2/v_q10.png", "audio": null, "answer": 1}, {"id": "v_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 11, "image": "crops/darakwon_n3_vol2/v_q11.png", "audio": null, "answer": 1}, {"id": "v_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 12, "image": "crops/darakwon_n3_vol2/v_q12.png", "audio": null, "answer": 4}, {"id": "v_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 13, "image": "crops/darakwon_n3_vol2/v_q13.png", "audio": null, "answer": 3}, {"id": "v_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 14, "image": "crops/darakwon_n3_vol2/v_q14.png", "audio": null, "answer": 2}, {"id": "v_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/darakwon_n3_vol2/v_q15.png", "audio": null, "answer": 4}, {"id": "v_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 16, "image": "crops/darakwon_n3_vol2/v_q16.png", "audio": null, "answer": 1}, {"id": "v_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 17, "image": "crops/darakwon_n3_vol2/v_q17.png", "audio": null, "answer": 3}, {"id": "v_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 18, "image": "crops/darakwon_n3_vol2/v_q18.png", "audio": null, "answer": 3}, {"id": "v_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 19, "image": "crops/darakwon_n3_vol2/v_q19.png", "audio": null, "answer": 4}, {"id": "v_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 20, "image": "crops/darakwon_n3_vol2/v_q20.png", "audio": null, "answer": 2}, {"id": "v_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 21, "image": "crops/darakwon_n3_vol2/v_q21.png", "audio": null, "answer": 1}, {"id": "v_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 22, "image": "crops/darakwon_n3_vol2/v_q22.png", "audio": null, "answer": 2}, {"id": "v_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 23, "image": "crops/darakwon_n3_vol2/v_q23.png", "audio": null, "answer": 2}, {"id": "v_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 24, "image": "crops/darakwon_n3_vol2/v_q24.png", "audio": null, "answer": 4}, {"id": "v_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 25, "image": "crops/darakwon_n3_vol2/v_q25.png", "audio": null, "answer": 3}, {"id": "v_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 26, "image": "crops/darakwon_n3_vol2/v_q26.png", "audio": null, "answer": 1}, {"id": "v_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 27, "image": "crops/darakwon_n3_vol2/v_q27.png", "audio": null, "answer": 4}, {"id": "v_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 28, "image": "crops/darakwon_n3_vol2/v_q28.png", "audio": null, "answer": 3}, {"id": "v_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 29, "image": "crops/darakwon_n3_vol2/v_q29.png", "audio": null, "answer": 4}, {"id": "v_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 30, "image": "crops/darakwon_n3_vol2/v_q30.png", "audio": null, "answer": 3}, {"id": "v_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 31, "image": "crops/darakwon_n3_vol2/v_q31.png", "audio": null, "answer": 1}, {"id": "v_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 32, "image": "crops/darakwon_n3_vol2/v_q32.png", "audio": null, "answer": 2}, {"id": "v_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 33, "image": "crops/darakwon_n3_vol2/v_q33.png", "audio": null, "answer": 1}, {"id": "v_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 34, "image": "crops/darakwon_n3_vol2/v_q34.png", "audio": null, "answer": 3}, {"id": "v_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 35, "image": "crops/darakwon_n3_vol2/v_q35.png", "audio": null, "answer": 2}, {"id": "g_q01", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol2/g_q01.png", "audio": null, "answer": 4}, {"id": "g_q02", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol2/g_q02.png", "audio": null, "answer": 4}, {"id": "g_q03", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol2/g_q03.png", "audio": null, "answer": 4}, {"id": "g_q04", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol2/g_q04.png", "audio": null, "answer": 1}, {"id": "g_q05", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol2/g_q05.png", "audio": null, "answer": 3}, {"id": "g_q06", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol2/g_q06.png", "audio": null, "answer": 2}, {"id": "g_q07", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 7, "image": "crops/darakwon_n3_vol2/g_q07.png", "audio": null, "answer": 1}, {"id": "g_q08", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 8, "image": "crops/darakwon_n3_vol2/g_q08.png", "audio": null, "answer": 3}, {"id": "g_q09", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 9, "image": "crops/darakwon_n3_vol2/g_q09.png", "audio": null, "answer": 1}, {"id": "g_q10", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 10, "image": "crops/darakwon_n3_vol2/g_q10.png", "audio": null, "answer": 1}, {"id": "g_q11", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 11, "image": "crops/darakwon_n3_vol2/g_q11.png", "audio": null, "answer": 2}, {"id": "g_q12", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 12, "image": "crops/darakwon_n3_vol2/g_q12.png", "audio": null, "answer": 2}, {"id": "g_q13", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 1", "q_num": 13, "image": "crops/darakwon_n3_vol2/g_q13.png", "audio": null, "answer": 3}, {"id": "g_q14", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 14, "image": "crops/darakwon_n3_vol2/g_q14.png", "audio": null, "answer": 1}, {"id": "g_q15", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 15, "image": "crops/darakwon_n3_vol2/g_q15.png", "audio": null, "answer": 4}, {"id": "g_q16", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 16, "image": "crops/darakwon_n3_vol2/g_q16.png", "audio": null, "answer": 2}, {"id": "g_q17", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 17, "image": "crops/darakwon_n3_vol2/g_q17.png", "audio": null, "answer": 4}, {"id": "g_q18", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 2", "q_num": 18, "image": "crops/darakwon_n3_vol2/g_q18.png", "audio": null, "answer": 3}, {"id": "g_q19", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 19, "image": "crops/darakwon_n3_vol2/g_q19.png", "audio": null, "answer": 4}, {"id": "g_q20", "global_num": 55, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 20, "image": "crops/darakwon_n3_vol2/g_q20.png", "audio": null, "answer": 1}, {"id": "g_q21", "global_num": 56, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 21, "image": "crops/darakwon_n3_vol2/g_q21.png", "audio": null, "answer": 4}, {"id": "g_q22", "global_num": 57, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 22, "image": "crops/darakwon_n3_vol2/g_q22.png", "audio": null, "answer": 3}, {"id": "g_q23", "global_num": 58, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 3", "q_num": 23, "image": "crops/darakwon_n3_vol2/g_q23.png", "audio": null, "answer": 2}, {"id": "r_q24", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 24, "image": "crops/darakwon_n3_vol2/r_q24.png", "audio": null, "answer": 3}, {"id": "r_q25", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 25, "image": "crops/darakwon_n3_vol2/r_q25.png", "audio": null, "answer": 4}, {"id": "r_q26", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 26, "image": "crops/darakwon_n3_vol2/r_q26.png", "audio": null, "answer": 4}, {"id": "r_q27", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 4", "q_num": 27, "image": "crops/darakwon_n3_vol2/r_q27.png", "audio": null, "answer": 2}, {"id": "r_q28", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 28, "image": "crops/darakwon_n3_vol2/r_q28.png", "audio": null, "answer": 4}, {"id": "r_q29", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 29, "image": "crops/darakwon_n3_vol2/r_q29.png", "audio": null, "answer": 2}, {"id": "r_q30", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 30, "image": "crops/darakwon_n3_vol2/r_q30.png", "audio": null, "answer": 3}, {"id": "r_q31", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 31, "image": "crops/darakwon_n3_vol2/r_q31.png", "audio": null, "answer": 4}, {"id": "r_q32", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 32, "image": "crops/darakwon_n3_vol2/r_q32.png", "audio": null, "answer": 3}, {"id": "r_q33", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 5", "q_num": 33, "image": "crops/darakwon_n3_vol2/r_q33.png", "audio": null, "answer": 2}, {"id": "r_q34", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 34, "image": "crops/darakwon_n3_vol2/r_q34.png", "audio": null, "answer": 2}, {"id": "r_q35", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 35, "image": "crops/darakwon_n3_vol2/r_q35.png", "audio": null, "answer": 4}, {"id": "r_q36", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 36, "image": "crops/darakwon_n3_vol2/r_q36.png", "audio": null, "answer": 4}, {"id": "r_q37", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 6", "q_num": 37, "image": "crops/darakwon_n3_vol2/r_q37.png", "audio": null, "answer": 2}, {"id": "r_q38", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 38, "image": "crops/darakwon_n3_vol2/r_q38.png", "audio": null, "answer": 4}, {"id": "r_q39", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 7", "q_num": 39, "image": "crops/darakwon_n3_vol2/r_q39.png", "audio": null, "answer": 3}, {"id": "l_q01", "global_num": 75, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/darakwon_n3_vol2/l_q01.png", "audio": "audio_clips/darakwon_n3_vol2/l_q01.mp3", "answer": 3}, {"id": "l_q02", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/darakwon_n3_vol2/l_q02.png", "audio": "audio_clips/darakwon_n3_vol2/l_q02.mp3", "answer": 3}, {"id": "l_q03", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/darakwon_n3_vol2/l_q03.png", "audio": "audio_clips/darakwon_n3_vol2/l_q03.mp3", "answer": 2}, {"id": "l_q04", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/darakwon_n3_vol2/l_q04.png", "audio": "audio_clips/darakwon_n3_vol2/l_q04.mp3", "answer": 2}, {"id": "l_q05", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/darakwon_n3_vol2/l_q05.png", "audio": "audio_clips/darakwon_n3_vol2/l_q05.mp3", "answer": 4}, {"id": "l_q06", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 6, "image": "crops/darakwon_n3_vol2/l_q06.png", "audio": "audio_clips/darakwon_n3_vol2/l_q06.mp3", "answer": 2}, {"id": "l_q07", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/darakwon_n3_vol2/l_q07.png", "audio": "audio_clips/darakwon_n3_vol2/l_q07.mp3", "answer": 1}, {"id": "l_q08", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/darakwon_n3_vol2/l_q08.png", "audio": "audio_clips/darakwon_n3_vol2/l_q08.mp3", "answer": 1}, {"id": "l_q09", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/darakwon_n3_vol2/l_q09.png", "audio": "audio_clips/darakwon_n3_vol2/l_q09.mp3", "answer": 3}, {"id": "l_q10", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/darakwon_n3_vol2/l_q10.png", "audio": "audio_clips/darakwon_n3_vol2/l_q10.mp3", "answer": 4}, {"id": "l_q11", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/darakwon_n3_vol2/l_q11.png", "audio": "audio_clips/darakwon_n3_vol2/l_q11.mp3", "answer": 4}, {"id": "l_q12", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 12, "image": "crops/darakwon_n3_vol2/l_q12.png", "audio": "audio_clips/darakwon_n3_vol2/l_q12.mp3", "answer": 4}, {"id": "l_q13", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/darakwon_n3_vol2/l_q13.png", "audio": "audio_clips/darakwon_n3_vol2/l_q13.mp3", "answer": 4}, {"id": "l_q14", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/darakwon_n3_vol2/l_q14.png", "audio": "audio_clips/darakwon_n3_vol2/l_q14.mp3", "answer": 1}, {"id": "l_q15", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/darakwon_n3_vol2/l_q15.png", "audio": "audio_clips/darakwon_n3_vol2/l_q15.mp3", "answer": 3}, {"id": "l_q16", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 16, "image": "crops/darakwon_n3_vol2/l_q16.png", "audio": "audio_clips/darakwon_n3_vol2/l_q16.mp3", "answer": 2}, {"id": "l_q17", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/darakwon_n3_vol2/l_q17.png", "audio": "audio_clips/darakwon_n3_vol2/l_q17.mp3", "answer": 3}, {"id": "l_q18", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/darakwon_n3_vol2/l_q18.png", "audio": "audio_clips/darakwon_n3_vol2/l_q18.mp3", "answer": 1}, {"id": "l_q19", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/darakwon_n3_vol2/l_q19.png", "audio": "audio_clips/darakwon_n3_vol2/l_q19.mp3", "answer": 2}, {"id": "l_q20", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 20, "image": "crops/darakwon_n3_vol2/l_q20.png", "audio": "audio_clips/darakwon_n3_vol2/l_q20.mp3", "answer": 1}, {"id": "l_q21", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 21, "image": "crops/darakwon_n3_vol2/l_q21.png", "audio": "audio_clips/darakwon_n3_vol2/l_q21.mp3", "answer": 2}, {"id": "l_q22", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 22, "image": "crops/darakwon_n3_vol2/l_q22.png", "audio": "audio_clips/darakwon_n3_vol2/l_q22.mp3", "answer": 3}, {"id": "l_q23", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 23, "image": "crops/darakwon_n3_vol2/l_q23.png", "audio": "audio_clips/darakwon_n3_vol2/l_q23.mp3", "answer": 2}, {"id": "l_q24", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 24, "image": "crops/darakwon_n3_vol2/l_q24.png", "audio": "audio_clips/darakwon_n3_vol2/l_q24.mp3", "answer": 1}, {"id": "l_q25", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 25, "image": "crops/darakwon_n3_vol2/l_q25.png", "audio": "audio_clips/darakwon_n3_vol2/l_q25.mp3", "answer": 3}, {"id": "l_q26", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 26, "image": "crops/darakwon_n3_vol2/l_q26.png", "audio": "audio_clips/darakwon_n3_vol2/l_q26.mp3", "answer": 1}, {"id": "l_q27", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 27, "image": "crops/darakwon_n3_vol2/l_q27.png", "audio": "audio_clips/darakwon_n3_vol2/l_q27.mp3", "answer": 2}, {"id": "l_q28", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 28, "image": "crops/darakwon_n3_vol2/l_q28.png", "audio": "audio_clips/darakwon_n3_vol2/l_q28.mp3", "answer": 2}]}, "pagoda_n2_vol3": {"config": {"id": "pagoda_n2_vol3", "title": "파고다 JLPT N2 개정판 실전 모의고사 3회", "publisher": "파고다 (pagodabook.com)", "level": "N2", "ans_key": "pagoda_n2_vol3", "type": "n2_pagoda"}, "total_questions": 107, "questions": [{"id": "r_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/pagoda_n2_vol3/r_01.png", "audio": null, "answer": 4}, {"id": "r_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/pagoda_n2_vol3/r_02.png", "audio": null, "answer": 2}, {"id": "r_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/pagoda_n2_vol3/r_03.png", "audio": null, "answer": 1}, {"id": "r_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/pagoda_n2_vol3/r_04.png", "audio": null, "answer": 3}, {"id": "r_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/pagoda_n2_vol3/r_05.png", "audio": null, "answer": 4}, {"id": "r_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 6, "image": "crops/pagoda_n2_vol3/r_06.png", "audio": null, "answer": 1}, {"id": "r_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 7, "image": "crops/pagoda_n2_vol3/r_07.png", "audio": null, "answer": 4}, {"id": "r_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 8, "image": "crops/pagoda_n2_vol3/r_08.png", "audio": null, "answer": 1}, {"id": "r_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/pagoda_n2_vol3/r_09.png", "audio": null, "answer": 4}, {"id": "r_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/pagoda_n2_vol3/r_10.png", "audio": null, "answer": 4}, {"id": "r_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 11, "image": "crops/pagoda_n2_vol3/r_11.png", "audio": null, "answer": 2}, {"id": "r_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 12, "image": "crops/pagoda_n2_vol3/r_12.png", "audio": null, "answer": 4}, {"id": "r_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 13, "image": "crops/pagoda_n2_vol3/r_13.png", "audio": null, "answer": 2}, {"id": "r_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 14, "image": "crops/pagoda_n2_vol3/r_14.png", "audio": null, "answer": 3}, {"id": "r_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/pagoda_n2_vol3/r_15.png", "audio": null, "answer": 1}, {"id": "r_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 16, "image": "crops/pagoda_n2_vol3/r_16.png", "audio": null, "answer": 4}, {"id": "r_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 17, "image": "crops/pagoda_n2_vol3/r_17.png", "audio": null, "answer": 2}, {"id": "r_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 18, "image": "crops/pagoda_n2_vol3/r_18.png", "audio": null, "answer": 3}, {"id": "r_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 19, "image": "crops/pagoda_n2_vol3/r_19.png", "audio": null, "answer": 1}, {"id": "r_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 20, "image": "crops/pagoda_n2_vol3/r_20.png", "audio": null, "answer": 2}, {"id": "r_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 21, "image": "crops/pagoda_n2_vol3/r_21.png", "audio": null, "answer": 1}, {"id": "r_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 22, "image": "crops/pagoda_n2_vol3/r_22.png", "audio": null, "answer": 4}, {"id": "r_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 23, "image": "crops/pagoda_n2_vol3/r_23.png", "audio": null, "answer": 4}, {"id": "r_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 24, "image": "crops/pagoda_n2_vol3/r_24.png", "audio": null, "answer": 3}, {"id": "r_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 25, "image": "crops/pagoda_n2_vol3/r_25.png", "audio": null, "answer": 2}, {"id": "r_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 26, "image": "crops/pagoda_n2_vol3/r_26.png", "audio": null, "answer": 4}, {"id": "r_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 27, "image": "crops/pagoda_n2_vol3/r_27.png", "audio": null, "answer": 2}, {"id": "r_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 28, "image": "crops/pagoda_n2_vol3/r_28.png", "audio": null, "answer": 1}, {"id": "r_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 29, "image": "crops/pagoda_n2_vol3/r_29.png", "audio": null, "answer": 3}, {"id": "r_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 30, "image": "crops/pagoda_n2_vol3/r_30.png", "audio": null, "answer": 2}, {"id": "r_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 31, "image": "crops/pagoda_n2_vol3/r_31.png", "audio": null, "answer": 4}, {"id": "r_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 32, "image": "crops/pagoda_n2_vol3/r_32.png", "audio": null, "answer": 1}, {"id": "r_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 33, "image": "crops/pagoda_n2_vol3/r_33.png", "audio": null, "answer": 2}, {"id": "r_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 34, "image": "crops/pagoda_n2_vol3/r_34.png", "audio": null, "answer": 4}, {"id": "r_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 35, "image": "crops/pagoda_n2_vol3/r_35.png", "audio": null, "answer": 2}, {"id": "r_q36", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 36, "image": "crops/pagoda_n2_vol3/r_36.png", "audio": null, "answer": 3}, {"id": "r_q37", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 37, "image": "crops/pagoda_n2_vol3/r_37.png", "audio": null, "answer": 3}, {"id": "r_q38", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 38, "image": "crops/pagoda_n2_vol3/r_38.png", "audio": null, "answer": 2}, {"id": "r_q39", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 39, "image": "crops/pagoda_n2_vol3/r_39.png", "audio": null, "answer": 3}, {"id": "r_q40", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 40, "image": "crops/pagoda_n2_vol3/r_40.png", "audio": null, "answer": 1}, {"id": "r_q41", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 41, "image": "crops/pagoda_n2_vol3/r_41.png", "audio": null, "answer": 2}, {"id": "r_q42", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 42, "image": "crops/pagoda_n2_vol3/r_42.png", "audio": null, "answer": 4}, {"id": "r_q43", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 43, "image": "crops/pagoda_n2_vol3/r_43.png", "audio": null, "answer": 2}, {"id": "r_q44", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 44, "image": "crops/pagoda_n2_vol3/r_44.png", "audio": null, "answer": 3}, {"id": "r_q45", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 45, "image": "crops/pagoda_n2_vol3/r_45.png", "audio": null, "answer": 2}, {"id": "r_q46", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 46, "image": "crops/pagoda_n2_vol3/r_46.png", "audio": null, "answer": 1}, {"id": "r_q47", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 47, "image": "crops/pagoda_n2_vol3/r_47.png", "audio": null, "answer": 4}, {"id": "r_q48", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 48, "image": "crops/pagoda_n2_vol3/r_48.png", "audio": null, "answer": 3}, {"id": "r_q49", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 49, "image": "crops/pagoda_n2_vol3/r_49.png", "audio": null, "answer": 2}, {"id": "r_q50", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 50, "image": "crops/pagoda_n2_vol3/r_50.png", "audio": null, "answer": 4}, {"id": "r_q51", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 51, "image": "crops/pagoda_n2_vol3/r_51.png", "audio": null, "answer": 3}, {"id": "r_q52", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 52, "image": "crops/pagoda_n2_vol3/r_52.png", "audio": null, "answer": 2}, {"id": "r_q53", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 53, "image": "crops/pagoda_n2_vol3/r_53.png", "audio": null, "answer": 1}, {"id": "r_q54", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 54, "image": "crops/pagoda_n2_vol3/r_54.png", "audio": null, "answer": 4}, {"id": "r_q55", "global_num": 55, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 55, "image": "crops/pagoda_n2_vol3/r_55.png", "audio": null, "answer": 2}, {"id": "r_q56", "global_num": 56, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 56, "image": "crops/pagoda_n2_vol3/r_56.png", "audio": null, "answer": 4}, {"id": "r_q57", "global_num": 57, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 57, "image": "crops/pagoda_n2_vol3/r_57.png", "audio": null, "answer": 2}, {"id": "r_q58", "global_num": 58, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 58, "image": "crops/pagoda_n2_vol3/r_58.png", "audio": null, "answer": 2}, {"id": "r_q59", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 59, "image": "crops/pagoda_n2_vol3/r_59.png", "audio": null, "answer": 4}, {"id": "r_q60", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 60, "image": "crops/pagoda_n2_vol3/r_60.png", "audio": null, "answer": 2}, {"id": "r_q61", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 61, "image": "crops/pagoda_n2_vol3/r_61.png", "audio": null, "answer": 4}, {"id": "r_q62", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 62, "image": "crops/pagoda_n2_vol3/r_62.png", "audio": null, "answer": 2}, {"id": "r_q63", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 63, "image": "crops/pagoda_n2_vol3/r_63.png", "audio": null, "answer": 1}, {"id": "r_q64", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 64, "image": "crops/pagoda_n2_vol3/r_64.png", "audio": null, "answer": 4}, {"id": "r_q65", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 65, "image": "crops/pagoda_n2_vol3/r_65.png", "audio": null, "answer": 1}, {"id": "r_q66", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 66, "image": "crops/pagoda_n2_vol3/r_66.png", "audio": null, "answer": 1}, {"id": "r_q67", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 67, "image": "crops/pagoda_n2_vol3/r_67.png", "audio": null, "answer": 3}, {"id": "r_q68", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 68, "image": "crops/pagoda_n2_vol3/r_68.png", "audio": null, "answer": 3}, {"id": "r_q69", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 12", "q_num": 69, "image": "crops/pagoda_n2_vol3/r_69.png", "audio": null, "answer": 3}, {"id": "r_q70", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 12", "q_num": 70, "image": "crops/pagoda_n2_vol3/r_70.png", "audio": null, "answer": 1}, {"id": "r_q71", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 71, "image": "crops/pagoda_n2_vol3/r_71.png", "audio": null, "answer": 3}, {"id": "r_q72", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 72, "image": "crops/pagoda_n2_vol3/r_72.png", "audio": null, "answer": 2}, {"id": "r_q73", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 73, "image": "crops/pagoda_n2_vol3/r_73.png", "audio": null, "answer": 2}, {"id": "r_q74", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 14", "q_num": 74, "image": "crops/pagoda_n2_vol3/r_74.png", "audio": null, "answer": 3}, {"id": "r_q75", "global_num": 75, "section": "reading", "section_name": "독해", "mondai": "問題 14", "q_num": 75, "image": "crops/pagoda_n2_vol3/r_75.png", "audio": null, "answer": 4}, {"id": "l_q01", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/pagoda_n2_vol3/l_1_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q01.mp3", "answer": 0}, {"id": "l_q02", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/pagoda_n2_vol3/l_1_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q02.mp3", "answer": 0}, {"id": "l_q03", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/pagoda_n2_vol3/l_1_3.png", "audio": "audio_clips/pagoda_n2_vol3/l_q03.mp3", "answer": 0}, {"id": "l_q04", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/pagoda_n2_vol3/l_1_4.png", "audio": "audio_clips/pagoda_n2_vol3/l_q04.mp3", "answer": 0}, {"id": "l_q05", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/pagoda_n2_vol3/l_1_5.png", "audio": "audio_clips/pagoda_n2_vol3/l_q05.mp3", "answer": 0}, {"id": "l_q06", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 6, "image": "crops/pagoda_n2_vol3/l_2_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q06.mp3", "answer": 0}, {"id": "l_q07", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/pagoda_n2_vol3/l_2_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q07.mp3", "answer": 0}, {"id": "l_q08", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/pagoda_n2_vol3/l_2_3.png", "audio": "audio_clips/pagoda_n2_vol3/l_q08.mp3", "answer": 0}, {"id": "l_q09", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/pagoda_n2_vol3/l_2_4.png", "audio": "audio_clips/pagoda_n2_vol3/l_q09.mp3", "answer": 0}, {"id": "l_q10", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/pagoda_n2_vol3/l_2_5.png", "audio": "audio_clips/pagoda_n2_vol3/l_q10.mp3", "answer": 0}, {"id": "l_q11", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/pagoda_n2_vol3/l_2_6.png", "audio": "audio_clips/pagoda_n2_vol3/l_q11.mp3", "answer": 0}, {"id": "l_q12", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 12, "image": "crops/pagoda_n2_vol3/l_3_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q12.mp3", "answer": 0}, {"id": "l_q13", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/pagoda_n2_vol3/l_3_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q13.mp3", "answer": 0}, {"id": "l_q14", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/pagoda_n2_vol3/l_3_3.png", "audio": "audio_clips/pagoda_n2_vol3/l_q14.mp3", "answer": 0}, {"id": "l_q15", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/pagoda_n2_vol3/l_3_4.png", "audio": "audio_clips/pagoda_n2_vol3/l_q15.mp3", "answer": 0}, {"id": "l_q16", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 16, "image": "crops/pagoda_n2_vol3/l_3_5.png", "audio": "audio_clips/pagoda_n2_vol3/l_q16.mp3", "answer": 0}, {"id": "l_q17", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/pagoda_n2_vol3/l_4_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q17.mp3", "answer": 0}, {"id": "l_q18", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/pagoda_n2_vol3/l_4_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q18.mp3", "answer": 0}, {"id": "l_q19", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/pagoda_n2_vol3/l_4_3.png", "audio": "audio_clips/pagoda_n2_vol3/l_q19.mp3", "answer": 0}, {"id": "l_q20", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 20, "image": "crops/pagoda_n2_vol3/l_4_4.png", "audio": "audio_clips/pagoda_n2_vol3/l_q20.mp3", "answer": 0}, {"id": "l_q21", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 21, "image": "crops/pagoda_n2_vol3/l_4_5.png", "audio": "audio_clips/pagoda_n2_vol3/l_q21.mp3", "answer": 0}, {"id": "l_q22", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 22, "image": "crops/pagoda_n2_vol3/l_4_6.png", "audio": "audio_clips/pagoda_n2_vol3/l_q22.mp3", "answer": 0}, {"id": "l_q23", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 23, "image": "crops/pagoda_n2_vol3/l_4_7.png", "audio": "audio_clips/pagoda_n2_vol3/l_q23.mp3", "answer": 0}, {"id": "l_q24", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 24, "image": "crops/pagoda_n2_vol3/l_4_8.png", "audio": "audio_clips/pagoda_n2_vol3/l_q24.mp3", "answer": 0}, {"id": "l_q25", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 25, "image": "crops/pagoda_n2_vol3/l_4_9.png", "audio": "audio_clips/pagoda_n2_vol3/l_q25.mp3", "answer": 0}, {"id": "l_q26", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 26, "image": "crops/pagoda_n2_vol3/l_4_10.png", "audio": "audio_clips/pagoda_n2_vol3/l_q26.mp3", "answer": 0}, {"id": "l_q27", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 27, "image": "crops/pagoda_n2_vol3/l_4_11.png", "audio": "audio_clips/pagoda_n2_vol3/l_q27.mp3", "answer": 0}, {"id": "l_q28", "global_num": 103, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 28, "image": "crops/pagoda_n2_vol3/l_4_12.png", "audio": "audio_clips/pagoda_n2_vol3/l_q28.mp3", "answer": 0}, {"id": "l_q29", "global_num": 104, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 29, "image": "crops/pagoda_n2_vol3/l_5_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q29.mp3", "answer": 0}, {"id": "l_q30", "global_num": 105, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 30, "image": "crops/pagoda_n2_vol3/l_5_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q30.mp3", "answer": 0}, {"id": "l_q31", "global_num": 106, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 31, "image": "crops/pagoda_n2_vol3/l_5_3_1.png", "audio": "audio_clips/pagoda_n2_vol3/l_q31.mp3", "answer": 0}, {"id": "l_q32", "global_num": 107, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 32, "image": "crops/pagoda_n2_vol3/l_5_3_2.png", "audio": "audio_clips/pagoda_n2_vol3/l_q32.mp3", "answer": 0}]}, "pagoda_n2_vol4": {"config": {"id": "pagoda_n2_vol4", "title": "파고다 JLPT N2 개정판 실전 모의고사 4회", "publisher": "파고다 (pagodabook.com)", "level": "N2", "ans_key": "pagoda_n2_vol4", "type": "n2_pagoda"}, "total_questions": 107, "questions": [{"id": "r_q01", "global_num": 1, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 1, "image": "crops/pagoda_n2_vol4/r_01.png", "audio": null, "answer": 3}, {"id": "r_q02", "global_num": 2, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 2, "image": "crops/pagoda_n2_vol4/r_02.png", "audio": null, "answer": 2}, {"id": "r_q03", "global_num": 3, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 3, "image": "crops/pagoda_n2_vol4/r_03.png", "audio": null, "answer": 4}, {"id": "r_q04", "global_num": 4, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 4, "image": "crops/pagoda_n2_vol4/r_04.png", "audio": null, "answer": 1}, {"id": "r_q05", "global_num": 5, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 1", "q_num": 5, "image": "crops/pagoda_n2_vol4/r_05.png", "audio": null, "answer": 1}, {"id": "r_q06", "global_num": 6, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 6, "image": "crops/pagoda_n2_vol4/r_06.png", "audio": null, "answer": 4}, {"id": "r_q07", "global_num": 7, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 7, "image": "crops/pagoda_n2_vol4/r_07.png", "audio": null, "answer": 3}, {"id": "r_q08", "global_num": 8, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 8, "image": "crops/pagoda_n2_vol4/r_08.png", "audio": null, "answer": 2}, {"id": "r_q09", "global_num": 9, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 9, "image": "crops/pagoda_n2_vol4/r_09.png", "audio": null, "answer": 1}, {"id": "r_q10", "global_num": 10, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 2", "q_num": 10, "image": "crops/pagoda_n2_vol4/r_10.png", "audio": null, "answer": 4}, {"id": "r_q11", "global_num": 11, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 11, "image": "crops/pagoda_n2_vol4/r_11.png", "audio": null, "answer": 3}, {"id": "r_q12", "global_num": 12, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 12, "image": "crops/pagoda_n2_vol4/r_12.png", "audio": null, "answer": 3}, {"id": "r_q13", "global_num": 13, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 13, "image": "crops/pagoda_n2_vol4/r_13.png", "audio": null, "answer": 3}, {"id": "r_q14", "global_num": 14, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 14, "image": "crops/pagoda_n2_vol4/r_14.png", "audio": null, "answer": 4}, {"id": "r_q15", "global_num": 15, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 3", "q_num": 15, "image": "crops/pagoda_n2_vol4/r_15.png", "audio": null, "answer": 1}, {"id": "r_q16", "global_num": 16, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 16, "image": "crops/pagoda_n2_vol4/r_16.png", "audio": null, "answer": 3}, {"id": "r_q17", "global_num": 17, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 17, "image": "crops/pagoda_n2_vol4/r_17.png", "audio": null, "answer": 1}, {"id": "r_q18", "global_num": 18, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 18, "image": "crops/pagoda_n2_vol4/r_18.png", "audio": null, "answer": 2}, {"id": "r_q19", "global_num": 19, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 19, "image": "crops/pagoda_n2_vol4/r_19.png", "audio": null, "answer": 2}, {"id": "r_q20", "global_num": 20, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 20, "image": "crops/pagoda_n2_vol4/r_20.png", "audio": null, "answer": 1}, {"id": "r_q21", "global_num": 21, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 21, "image": "crops/pagoda_n2_vol4/r_21.png", "audio": null, "answer": 4}, {"id": "r_q22", "global_num": 22, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 4", "q_num": 22, "image": "crops/pagoda_n2_vol4/r_22.png", "audio": null, "answer": 3}, {"id": "r_q23", "global_num": 23, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 23, "image": "crops/pagoda_n2_vol4/r_23.png", "audio": null, "answer": 2}, {"id": "r_q24", "global_num": 24, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 24, "image": "crops/pagoda_n2_vol4/r_24.png", "audio": null, "answer": 1}, {"id": "r_q25", "global_num": 25, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 25, "image": "crops/pagoda_n2_vol4/r_25.png", "audio": null, "answer": 1}, {"id": "r_q26", "global_num": 26, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 26, "image": "crops/pagoda_n2_vol4/r_26.png", "audio": null, "answer": 1}, {"id": "r_q27", "global_num": 27, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 5", "q_num": 27, "image": "crops/pagoda_n2_vol4/r_27.png", "audio": null, "answer": 2}, {"id": "r_q28", "global_num": 28, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 28, "image": "crops/pagoda_n2_vol4/r_28.png", "audio": null, "answer": 3}, {"id": "r_q29", "global_num": 29, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 29, "image": "crops/pagoda_n2_vol4/r_29.png", "audio": null, "answer": 1}, {"id": "r_q30", "global_num": 30, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 30, "image": "crops/pagoda_n2_vol4/r_30.png", "audio": null, "answer": 3}, {"id": "r_q31", "global_num": 31, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 31, "image": "crops/pagoda_n2_vol4/r_31.png", "audio": null, "answer": 2}, {"id": "r_q32", "global_num": 32, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 32, "image": "crops/pagoda_n2_vol4/r_32.png", "audio": null, "answer": 2}, {"id": "r_q33", "global_num": 33, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 33, "image": "crops/pagoda_n2_vol4/r_33.png", "audio": null, "answer": 2}, {"id": "r_q34", "global_num": 34, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 34, "image": "crops/pagoda_n2_vol4/r_34.png", "audio": null, "answer": 3}, {"id": "r_q35", "global_num": 35, "section": "vocab", "section_name": "언어지식 (문자·어휘)", "mondai": "問題 6", "q_num": 35, "image": "crops/pagoda_n2_vol4/r_35.png", "audio": null, "answer": 3}, {"id": "r_q36", "global_num": 36, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 36, "image": "crops/pagoda_n2_vol4/r_36.png", "audio": null, "answer": 1}, {"id": "r_q37", "global_num": 37, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 37, "image": "crops/pagoda_n2_vol4/r_37.png", "audio": null, "answer": 4}, {"id": "r_q38", "global_num": 38, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 38, "image": "crops/pagoda_n2_vol4/r_38.png", "audio": null, "answer": 2}, {"id": "r_q39", "global_num": 39, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 39, "image": "crops/pagoda_n2_vol4/r_39.png", "audio": null, "answer": 1}, {"id": "r_q40", "global_num": 40, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 40, "image": "crops/pagoda_n2_vol4/r_40.png", "audio": null, "answer": 2}, {"id": "r_q41", "global_num": 41, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 41, "image": "crops/pagoda_n2_vol4/r_41.png", "audio": null, "answer": 3}, {"id": "r_q42", "global_num": 42, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 42, "image": "crops/pagoda_n2_vol4/r_42.png", "audio": null, "answer": 1}, {"id": "r_q43", "global_num": 43, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 43, "image": "crops/pagoda_n2_vol4/r_43.png", "audio": null, "answer": 4}, {"id": "r_q44", "global_num": 44, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 44, "image": "crops/pagoda_n2_vol4/r_44.png", "audio": null, "answer": 2}, {"id": "r_q45", "global_num": 45, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 45, "image": "crops/pagoda_n2_vol4/r_45.png", "audio": null, "answer": 4}, {"id": "r_q46", "global_num": 46, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 7", "q_num": 46, "image": "crops/pagoda_n2_vol4/r_46.png", "audio": null, "answer": 2}, {"id": "r_q47", "global_num": 47, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 47, "image": "crops/pagoda_n2_vol4/r_47.png", "audio": null, "answer": 2}, {"id": "r_q48", "global_num": 48, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 48, "image": "crops/pagoda_n2_vol4/r_48.png", "audio": null, "answer": 3}, {"id": "r_q49", "global_num": 49, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 49, "image": "crops/pagoda_n2_vol4/r_49.png", "audio": null, "answer": 1}, {"id": "r_q50", "global_num": 50, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 50, "image": "crops/pagoda_n2_vol4/r_50.png", "audio": null, "answer": 3}, {"id": "r_q51", "global_num": 51, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 8", "q_num": 51, "image": "crops/pagoda_n2_vol4/r_51.png", "audio": null, "answer": 2}, {"id": "r_q52", "global_num": 52, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 52, "image": "crops/pagoda_n2_vol4/r_52.png", "audio": null, "answer": 1}, {"id": "r_q53", "global_num": 53, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 53, "image": "crops/pagoda_n2_vol4/r_53.png", "audio": null, "answer": 4}, {"id": "r_q54", "global_num": 54, "section": "grammar", "section_name": "언어지식 (문법)", "mondai": "問題 9", "q_num": 54, "image": "crops/pagoda_n2_vol4/r_54.png", "audio": null, "answer": 2}, {"id": "r_q55", "global_num": 55, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 55, "image": "crops/pagoda_n2_vol4/r_55.png", "audio": null, "answer": 4}, {"id": "r_q56", "global_num": 56, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 56, "image": "crops/pagoda_n2_vol4/r_56.png", "audio": null, "answer": 2}, {"id": "r_q57", "global_num": 57, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 57, "image": "crops/pagoda_n2_vol4/r_57.png", "audio": null, "answer": 3}, {"id": "r_q58", "global_num": 58, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 58, "image": "crops/pagoda_n2_vol4/r_58.png", "audio": null, "answer": 4}, {"id": "r_q59", "global_num": 59, "section": "reading", "section_name": "독해", "mondai": "問題 10", "q_num": 59, "image": "crops/pagoda_n2_vol4/r_59.png", "audio": null, "answer": 2}, {"id": "r_q60", "global_num": 60, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 60, "image": "crops/pagoda_n2_vol4/r_60.png", "audio": null, "answer": 1}, {"id": "r_q61", "global_num": 61, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 61, "image": "crops/pagoda_n2_vol4/r_61.png", "audio": null, "answer": 2}, {"id": "r_q62", "global_num": 62, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 62, "image": "crops/pagoda_n2_vol4/r_62.png", "audio": null, "answer": 1}, {"id": "r_q63", "global_num": 63, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 63, "image": "crops/pagoda_n2_vol4/r_63.png", "audio": null, "answer": 2}, {"id": "r_q64", "global_num": 64, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 64, "image": "crops/pagoda_n2_vol4/r_64.png", "audio": null, "answer": 3}, {"id": "r_q65", "global_num": 65, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 65, "image": "crops/pagoda_n2_vol4/r_65.png", "audio": null, "answer": 3}, {"id": "r_q66", "global_num": 66, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 66, "image": "crops/pagoda_n2_vol4/r_66.png", "audio": null, "answer": 3}, {"id": "r_q67", "global_num": 67, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 67, "image": "crops/pagoda_n2_vol4/r_67.png", "audio": null, "answer": 4}, {"id": "r_q68", "global_num": 68, "section": "reading", "section_name": "독해", "mondai": "問題 11", "q_num": 68, "image": "crops/pagoda_n2_vol4/r_68.png", "audio": null, "answer": 3}, {"id": "r_q69", "global_num": 69, "section": "reading", "section_name": "독해", "mondai": "問題 12", "q_num": 69, "image": "crops/pagoda_n2_vol4/r_69.png", "audio": null, "answer": 2}, {"id": "r_q70", "global_num": 70, "section": "reading", "section_name": "독해", "mondai": "問題 12", "q_num": 70, "image": "crops/pagoda_n2_vol4/r_70.png", "audio": null, "answer": 1}, {"id": "r_q71", "global_num": 71, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 71, "image": "crops/pagoda_n2_vol4/r_71.png", "audio": null, "answer": 1}, {"id": "r_q72", "global_num": 72, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 72, "image": "crops/pagoda_n2_vol4/r_72.png", "audio": null, "answer": 2}, {"id": "r_q73", "global_num": 73, "section": "reading", "section_name": "독해", "mondai": "問題 13", "q_num": 73, "image": "crops/pagoda_n2_vol4/r_73.png", "audio": null, "answer": 1}, {"id": "r_q74", "global_num": 74, "section": "reading", "section_name": "독해", "mondai": "問題 14", "q_num": 74, "image": "crops/pagoda_n2_vol4/r_74.png", "audio": null, "answer": 3}, {"id": "r_q75", "global_num": 75, "section": "reading", "section_name": "독해", "mondai": "問題 14", "q_num": 75, "image": "crops/pagoda_n2_vol4/r_75.png", "audio": null, "answer": 3}, {"id": "l_q01", "global_num": 76, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 1, "image": "crops/pagoda_n2_vol4/l_1_1.png", "audio": "audio_clips/pagoda_n2_vol4/l_q01.mp3", "answer": 0}, {"id": "l_q02", "global_num": 77, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 2, "image": "crops/pagoda_n2_vol4/l_1_2.png", "audio": "audio_clips/pagoda_n2_vol4/l_q02.mp3", "answer": 0}, {"id": "l_q03", "global_num": 78, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 3, "image": "crops/pagoda_n2_vol4/l_1_3.png", "audio": "audio_clips/pagoda_n2_vol4/l_q03.mp3", "answer": 0}, {"id": "l_q04", "global_num": 79, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 4, "image": "crops/pagoda_n2_vol4/l_1_4.png", "audio": "audio_clips/pagoda_n2_vol4/l_q04.mp3", "answer": 0}, {"id": "l_q05", "global_num": 80, "section": "listening", "section_name": "청해", "mondai": "問題 1", "q_num": 5, "image": "crops/pagoda_n2_vol4/l_1_5.png", "audio": "audio_clips/pagoda_n2_vol4/l_q05.mp3", "answer": 0}, {"id": "l_q06", "global_num": 81, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 6, "image": "crops/pagoda_n2_vol4/l_2_1.png", "audio": "audio_clips/pagoda_n2_vol4/l_q06.mp3", "answer": 0}, {"id": "l_q07", "global_num": 82, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 7, "image": "crops/pagoda_n2_vol4/l_2_2.png", "audio": "audio_clips/pagoda_n2_vol4/l_q07.mp3", "answer": 0}, {"id": "l_q08", "global_num": 83, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 8, "image": "crops/pagoda_n2_vol4/l_2_3.png", "audio": "audio_clips/pagoda_n2_vol4/l_q08.mp3", "answer": 0}, {"id": "l_q09", "global_num": 84, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 9, "image": "crops/pagoda_n2_vol4/l_2_4.png", "audio": "audio_clips/pagoda_n2_vol4/l_q09.mp3", "answer": 0}, {"id": "l_q10", "global_num": 85, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 10, "image": "crops/pagoda_n2_vol4/l_2_5.png", "audio": "audio_clips/pagoda_n2_vol4/l_q10.mp3", "answer": 0}, {"id": "l_q11", "global_num": 86, "section": "listening", "section_name": "청해", "mondai": "問題 2", "q_num": 11, "image": "crops/pagoda_n2_vol4/l_2_6.png", "audio": "audio_clips/pagoda_n2_vol4/l_q11.mp3", "answer": 0}, {"id": "l_q12", "global_num": 87, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 12, "image": "crops/pagoda_n2_vol4/l_3_1.png", "audio": "audio_clips/pagoda_n2_vol4/l_q12.mp3", "answer": 0}, {"id": "l_q13", "global_num": 88, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 13, "image": "crops/pagoda_n2_vol4/l_3_2.png", "audio": "audio_clips/pagoda_n2_vol4/l_q13.mp3", "answer": 0}, {"id": "l_q14", "global_num": 89, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 14, "image": "crops/pagoda_n2_vol4/l_3_3.png", "audio": "audio_clips/pagoda_n2_vol4/l_q14.mp3", "answer": 0}, {"id": "l_q15", "global_num": 90, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 15, "image": "crops/pagoda_n2_vol4/l_3_4.png", "audio": "audio_clips/pagoda_n2_vol4/l_q15.mp3", "answer": 0}, {"id": "l_q16", "global_num": 91, "section": "listening", "section_name": "청해", "mondai": "問題 3", "q_num": 16, "image": "crops/pagoda_n2_vol4/l_3_5.png", "audio": "audio_clips/pagoda_n2_vol4/l_q16.mp3", "answer": 0}, {"id": "l_q17", "global_num": 92, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 17, "image": "crops/pagoda_n2_vol4/l_4_1.png", "audio": "audio_clips/pagoda_n2_vol4/l_q17.mp3", "answer": 0}, {"id": "l_q18", "global_num": 93, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 18, "image": "crops/pagoda_n2_vol4/l_4_2.png", "audio": "audio_clips/pagoda_n2_vol4/l_q18.mp3", "answer": 0}, {"id": "l_q19", "global_num": 94, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 19, "image": "crops/pagoda_n2_vol4/l_4_3.png", "audio": "audio_clips/pagoda_n2_vol4/l_q19.mp3", "answer": 0}, {"id": "l_q20", "global_num": 95, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 20, "image": "crops/pagoda_n2_vol4/l_4_4.png", "audio": "audio_clips/pagoda_n2_vol4/l_q20.mp3", "answer": 0}, {"id": "l_q21", "global_num": 96, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 21, "image": "crops/pagoda_n2_vol4/l_4_5.png", "audio": "audio_clips/pagoda_n2_vol4/l_q21.mp3", "answer": 0}, {"id": "l_q22", "global_num": 97, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 22, "image": "crops/pagoda_n2_vol4/l_4_6.png", "audio": "audio_clips/pagoda_n2_vol4/l_q22.mp3", "answer": 0}, {"id": "l_q23", "global_num": 98, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 23, "image": "crops/pagoda_n2_vol4/l_4_7.png", "audio": "audio_clips/pagoda_n2_vol4/l_q23.mp3", "answer": 0}, {"id": "l_q24", "global_num": 99, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 24, "image": "crops/pagoda_n2_vol4/l_4_8.png", "audio": "audio_clips/pagoda_n2_vol4/l_q24.mp3", "answer": 0}, {"id": "l_q25", "global_num": 100, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 25, "image": "crops/pagoda_n2_vol4/l_4_9.png", "audio": "audio_clips/pagoda_n2_vol4/l_q25.mp3", "answer": 0}, {"id": "l_q26", "global_num": 101, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 26, "image": "crops/pagoda_n2_vol4/l_4_10.png", "audio": "audio_clips/pagoda_n2_vol4/l_q26.mp3", "answer": 0}, {"id": "l_q27", "global_num": 102, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 27, "image": "crops/pagoda_n2_vol4/l_4_11.png", "audio": "audio_clips/pagoda_n2_vol4/l_q27.mp3", "answer": 0}, {"id": "l_q28", "global_num": 103, "section": "listening", "section_name": "청해", "mondai": "問題 4", "q_num": 28, "image": "crops/pagoda_n2_vol4/l_4_12.png", "audio": "audio_clips/pagoda_n2_vol4/l_q28.mp3", "answer": 0}, {"id": "l_q29", "global_num": 104, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 29, "image": "crops/pagoda_n2_vol4/l_5_1.png", "audio": "audio_clips/pagoda_n2_vol4/l_q29.mp3", "answer": 0}, {"id": "l_q30", "global_num": 105, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 30, "image": "crops/pagoda_n2_vol4/l_5_2.png", "audio": "audio_clips/pagoda_n2_vol4/l_q30.mp3", "answer": 0}, {"id": "l_q31", "global_num": 106, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 31, "image": "crops/pagoda_n2_vol4/l_5_3.png", "audio": "audio_clips/pagoda_n2_vol4/l_q31.mp3", "answer": 0}, {"id": "l_q32", "global_num": 107, "section": "listening", "section_name": "청해", "mondai": "問題 5", "q_num": 32, "image": "crops/pagoda_n2_vol4/l_5_4.png", "audio": "audio_clips/pagoda_n2_vol4/l_q32.mp3", "answer": 0}]}};
+
+    /* Global State */
+    let currentTestId = "hackers_n3";
+    let currentMode = "practice"; // 'practice' or 'exam'
+    let currentFilter = "all";
+    let userAnswers = {}; // { [testId]: { [qId]: selectedNum } }
+    let isGraded = {}; // { [testId]: boolean }
+    let examSeconds = 0;
+    let timerInterval = null;
+
+    /* Single Audio Exclusive Play Global Guard */
+    let currentlyPlayingAudio = null;
+
+    function playAudioExclusively(audioEl) {
+      if (currentlyPlayingAudio && currentlyPlayingAudio !== audioEl) {
+        currentlyPlayingAudio.pause();
+        const prevId = currentlyPlayingAudio.dataset.qid;
+        const prevBtn = document.getElementById(`btnPlay_${prevId}`);
+        if (prevBtn) updatePlayBtnIcon(prevBtn, false);
+      }
+      currentlyPlayingAudio = audioEl;
+      audioEl.play();
+      const currId = audioEl.dataset.qid;
+      const currBtn = document.getElementById(`btnPlay_${currId}`);
+      if (currBtn) updatePlayBtnIcon(currBtn, true);
+    }
+
+    function pauseCurrentAudio() {
+      if (currentlyPlayingAudio) {
+        currentlyPlayingAudio.pause();
+        const prevId = currentlyPlayingAudio.dataset.qid;
+        const prevBtn = document.getElementById(`btnPlay_${prevId}`);
+        if (prevBtn) updatePlayBtnIcon(prevBtn, false);
+        currentlyPlayingAudio = null;
+      }
+    }
+
+    function updatePlayBtnIcon(btn, isPlaying) {
+      if (isPlaying) {
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+      } else {
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+      }
+    }
+
+    /* Initialize Application */
+    function initApp() {
+      // Build Test Nav Tabs
+      const tabNav = document.getElementById("testNavTabs");
+      tabNav.innerHTML = "";
+      Object.keys(MASTER_DATA).forEach(tId => {
+        const t = MASTER_DATA[tId].config;
+        const btn = document.createElement("button");
+        btn.className = `tab-btn ${tId === currentTestId ? 'active' : ''}`;
+        btn.innerText = `${t.title} (${MASTER_DATA[tId].total_questions}문항)`;
+        btn.onclick = () => selectTest(tId);
+        tabNav.appendChild(btn);
+      });
+
+      selectTest(currentTestId);
+    }
+
+    function selectTest(testId) {
+      pauseCurrentAudio();
+      currentTestId = testId;
+      if (!userAnswers[currentTestId]) userAnswers[currentTestId] = {};
+      if (isGraded[currentTestId] === undefined) isGraded[currentTestId] = false;
+
+      // Update Nav Tab UI
+      document.querySelectorAll(".tab-btn").forEach((btn, idx) => {
+        btn.classList.toggle("active", Object.keys(MASTER_DATA)[idx] === testId);
+      });
+
+      const testData = MASTER_DATA[testId];
+      document.getElementById("testTitleText").innerText = testData.config.title;
+      document.getElementById("testMetaText").innerText = `출판사: ${testData.config.publisher} | 급수: ${testData.config.level} | 총 ${testData.total_questions}문항`;
+
+      renderQuestions();
+      renderOmr();
+      updateProgress();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("btnModePractice").classList.toggle("active", mode === "practice");
+      document.getElementById("btnModeExam").classList.toggle("active", mode === "exam");
+      
+      const timerEl = document.getElementById("examTimer");
+      if (mode === "exam") {
+        timerEl.style.display = "block";
+        startExamTimer();
+      } else {
+        timerEl.style.display = "none";
+        stopExamTimer();
+      }
+
+      renderQuestions();
+      renderOmr();
+    }
+
+    function startExamTimer() {
+      stopExamTimer();
+      examSeconds = 0;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        examSeconds++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopExamTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(examSeconds / 60).toString().padStart(2, '0');
+      const s = (examSeconds % 60).toString().padStart(2, '0');
+      document.getElementById("examTimer").innerText = `⏱️ ${m}:${s}`;
+    }
+
+    function filterSection(sec) {
+      currentFilter = sec;
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        const text = btn.innerText;
+        const matches = (sec === "all" && text.includes("전체")) ||
+                        (sec === "vocab" && text.includes("어휘")) ||
+                        (sec === "grammar" && text.includes("문법")) ||
+                        (sec === "reading" && text.includes("독해")) ||
+                        (sec === "listening" && text.includes("청해"));
+        btn.classList.toggle("active", matches);
+      });
+      renderQuestions();
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+      const test = MASTER_DATA[currentTestId];
+      const answers = userAnswers[currentTestId] || {};
+      const graded = isGraded[currentTestId] || false;
+
+      const filtered = test.questions.filter(q => {
+        if (currentFilter === "all") return true;
+        return q.section === currentFilter;
+      });
+
+      filtered.forEach(q => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+        card.id = `qcard_${q.id}`;
+
+        const userChoice = answers[q.id];
+        const isCorrect = userChoice === q.answer;
+
+        // Header
+        let html = `
+          <div class="q-header">
+            <div class="q-badge">
+              <span class="q-num">Q${q.q_num.toString().padStart(2, '0')}</span>
+              <span class="q-sec">${q.section_name}</span>
+            </div>
+            <span class="q-mondai">${q.mondai}</span>
+          </div>
+        `;
+
+        // Audio Player (for Listening questions)
+        if (q.audio) {
+          html += `
+            <div class="audio-player-container">
+              <button class="audio-play-btn" id="btnPlay_${q.id}" onclick="toggleAudio('${q.id}')">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-track-slider" id="slider_${q.id}" min="0" max="100" value="0" oninput="seekAudio('${q.id}', this.value)">
+                <div class="audio-time-label">
+                  <span id="curTime_${q.id}">0:00</span>
+                  <span id="totTime_${q.id}">--:--</span>
+                </div>
+              </div>
+              <audio id="audio_${q.id}" data-qid="${q.id}" src="../${q.audio}" preload="none" ontimeupdate="onAudioTimeUpdate('${q.id}')" onloadedmetadata="onAudioLoaded('${q.id}')" onended="onAudioEnded('${q.id}')"></audio>
+            </div>
+          `;
+        }
+
+        // Question Image
+        html += `
+          <div class="q-img-wrap">
+            <img src="../${q.image}" alt="Q${q.q_num}" loading="lazy">
+          </div>
+        `;
+
+        // Options
+        const maxOptions = (q.section === "listening" && (q.mondai.includes("4") || q.mondai.includes("5"))) ? 3 : 4;
+        html += `<div class="q-options"><div class="options-row">`;
+        for (let opt = 1; opt <= maxOptions; opt++) {
+          let optClass = "choice-btn";
+          if (userChoice === opt) optClass += " selected";
+
+          if (currentMode === "practice" && userChoice !== undefined) {
+            if (opt === q.answer) optClass += " correct";
+            else if (userChoice === opt) optClass += " wrong";
+          } else if (currentMode === "exam" && graded) {
+            if (opt === q.answer) optClass += " correct";
+            else if (userChoice === opt) optClass += " wrong";
+          }
+
+          html += `<button class="${optClass}" onclick="selectAnswer('${q.id}', ${opt})">${opt}</button>`;
+        }
+        html += `</div>`;
+
+        // Feedback in Practice Mode
+        if (currentMode === "practice" && userChoice !== undefined) {
+          if (isCorrect) {
+            html += `<div class="feedback-box show-correct">✅ 정답입니다! (정답: ${q.answer}번)</div>`;
+          } else {
+            html += `<div class="feedback-box show-wrong">❌ 오답입니다. (선택: ${userChoice}번 / 정답: ${q.answer}번)</div>`;
+          }
+        }
+
+        html += `</div>`;
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+    }
+
+    /* Audio Player Handlers */
+    function toggleAudio(qId) {
+      const audio = document.getElementById(`audio_${qId}`);
+      if (!audio) return;
+      if (audio.paused) {
+        playAudioExclusively(audio);
+      } else {
+        audio.pause();
+        const btn = document.getElementById(`btnPlay_${qId}`);
+        updatePlayBtnIcon(btn, false);
+      }
+    }
+
+    function onAudioTimeUpdate(qId) {
+      const audio = document.getElementById(`audio_${qId}`);
+      const slider = document.getElementById(`slider_${qId}`);
+      const curTime = document.getElementById(`curTime_${qId}`);
+      if (!audio || !slider) return;
+      if (audio.duration) {
+        slider.value = (audio.currentTime / audio.duration) * 100;
+        curTime.innerText = formatTime(audio.currentTime);
+      }
+    }
+
+    function onAudioLoaded(qId) {
+      const audio = document.getElementById(`audio_${qId}`);
+      const totTime = document.getElementById(`totTime_${qId}`);
+      if (audio && totTime) {
+        totTime.innerText = formatTime(audio.duration);
+      }
+    }
+
+    function onAudioEnded(qId) {
+      const btn = document.getElementById(`btnPlay_${qId}`);
+      if (btn) updatePlayBtnIcon(btn, false);
+      const slider = document.getElementById(`slider_${qId}`);
+      if (slider) slider.value = 0;
+      const curTime = document.getElementById(`curTime_${qId}`);
+      if (curTime) curTime.innerText = "0:00";
+    }
+
+    function seekAudio(qId, pct) {
+      const audio = document.getElementById(`audio_${qId}`);
+      if (audio && audio.duration) {
+        audio.currentTime = (pct / 100) * audio.duration;
+      }
+    }
+
+    function formatTime(sec) {
+      if (isNaN(sec)) return "0:00";
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    /* Answer Selection */
+    function selectAnswer(qId, choiceNum) {
+      if (!userAnswers[currentTestId]) userAnswers[currentTestId] = {};
+      userAnswers[currentTestId][qId] = choiceNum;
+
+      renderQuestions();
+      renderOmr();
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const test = MASTER_DATA[currentTestId];
+      const answers = userAnswers[currentTestId] || {};
+      const count = Object.keys(answers).length;
+      const total = test.total_questions;
+      document.getElementById("progressText").innerText = `${count} / ${total} (${Math.round(count/total*100)}%)`;
+      document.getElementById("progressBarFill").style.width = `${(count/total)*100}%`;
+      document.getElementById("omrCountText").innerText = `${count}/${total}`;
+    }
+
+    /* OMR Drawer */
+    function toggleOmr() {
+      document.getElementById("omrDrawer").classList.toggle("open");
+    }
+
+    function renderOmr() {
+      const grid = document.getElementById("omrGrid");
+      grid.innerHTML = "";
+      const test = MASTER_DATA[currentTestId];
+      const answers = userAnswers[currentTestId] || {};
+      const graded = isGraded[currentTestId] || false;
+
+      test.questions.forEach((q, idx) => {
+        const item = document.createElement("div");
+        item.className = "omr-item";
+        const val = answers[q.id];
+
+        if (val !== undefined) {
+          item.classList.add("filled");
+          if ((currentMode === "practice" || graded)) {
+            if (val === q.answer) item.classList.add("correct");
+            else item.classList.add("wrong");
+          }
+        }
+
+        item.innerHTML = `
+          <span class="omr-qnum">#${idx+1}</span>
+          <span class="omr-ans">${val !== undefined ? val : '-'}</span>
+        `;
+        item.onclick = () => {
+          toggleOmr();
+          const targetCard = document.getElementById(`qcard_${q.id}`);
+          if (targetCard) {
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetCard.style.outline = "2px solid var(--primary)";
+            setTimeout(() => targetCard.style.outline = "", 1500);
+          }
+        };
+        grid.appendChild(item);
+      });
+    }
+
+    /* Exam Grading */
+    function gradeExam() {
+      isGraded[currentTestId] = true;
+      const test = MASTER_DATA[currentTestId];
+      const answers = userAnswers[currentTestId] || {};
+
+      let correct = 0;
+      let wrong = 0;
+      let unanswered = 0;
+
+      test.questions.forEach(q => {
+        const userChoice = answers[q.id];
+        if (userChoice === undefined) {
+          unanswered++;
+        } else if (userChoice === q.answer) {
+          correct++;
+        } else {
+          wrong++;
+        }
+      });
+
+      const total = test.total_questions;
+      const scorePct = Math.round((correct / total) * 100);
+
+      document.getElementById("modalTestName").innerText = test.config.title;
+      document.getElementById("modalScoreVal").innerText = `${scorePct}%`;
+      document.getElementById("modalScoreFraction").innerText = `${correct} / ${total} 문항 정답`;
+      document.getElementById("modalCorrectCnt").innerText = correct;
+      document.getElementById("modalWrongCnt").innerText = wrong;
+      document.getElementById("modalUnansweredCnt").innerText = unanswered;
+
+      document.getElementById("resultModal").classList.add("open");
+      renderQuestions();
+      renderOmr();
+    }
+
+    function closeModal() {
+      document.getElementById("resultModal").classList.remove("open");
+      if (document.getElementById("omrDrawer").classList.contains("open")) {
+        toggleOmr();
+      }
+    }
+
+    // Launch
+    window.onload = initApp;
+  </script>
+</body>
+</html>
