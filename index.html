@@ -845,7 +845,7 @@
                   <span id="totTime_${q.id}">--:--</span>
                 </div>
               </div>
-              <audio id="audio_${q.id}" data-qid="${q.id}" src="../${q.audio}" preload="none" ontimeupdate="onAudioTimeUpdate('${q.id}')" onloadedmetadata="onAudioLoaded('${q.id}')" onended="onAudioEnded('${q.id}')"></audio>
+              <audio id="audio_${q.id}" data-qid="${q.id}" src="./${q.audio}" preload="none" ontimeupdate="onAudioTimeUpdate('${q.id}')" onloadedmetadata="onAudioLoaded('${q.id}')" onended="onAudioEnded('${q.id}')"></audio>
             </div>
           `;
         }
@@ -853,7 +853,7 @@
         // Question Image
         html += `
           <div class="q-img-wrap">
-            <img src="../${q.image}" alt="Q${q.q_num}" loading="lazy">
+            <img src="./${q.image}" alt="Q${q.q_num}" loading="lazy">
           </div>
         `;
 
