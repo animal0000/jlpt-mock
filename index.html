@@ -115,33 +115,96 @@
     }
     .btn-omr:hover { background: #334155; }
 
-    /* Nav Tabs */
-    .tab-nav {
+    /* Nav Tabs & Slider Wrapper */
+    .tab-nav-wrapper {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 4px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+    .nav-arrow-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--gray-200);
+      background: #ffffff;
+      color: var(--gray-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      z-index: 2;
+    }
+    .nav-arrow-btn:hover:not(:disabled) {
+      background: #eff6ff;
+      color: var(--primary);
+      border-color: var(--primary);
+      transform: scale(1.08);
+    }
+    .nav-arrow-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .nav-arrow-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+    .tab-nav {
+      flex: 1;
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      scrollbar-width: none;
+      scroll-behavior: smooth;
+      padding: 6px 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+      user-select: none;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
     }
-    .tab-nav::-webkit-scrollbar { display: none; }
+    .tab-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+    .tab-nav::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .tab-nav::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .tab-nav::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
     .tab-btn {
-      padding: 10px 14px;
+      padding: 8px 14px;
       font-size: 14px;
       font-weight: 600;
-      border: none;
+      border: 1px solid transparent;
+      border-radius: 8px;
       background: transparent;
       color: var(--gray-500);
-      border-bottom: 2px solid transparent;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.15s;
+      flex-shrink: 0;
     }
-    .tab-btn:hover { color: var(--gray-800); }
+    .tab-btn:hover {
+      color: var(--gray-800);
+      background: var(--gray-100);
+    }
     .tab-btn.active {
       color: var(--primary);
-      border-bottom-color: var(--primary);
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      box-shadow: 0 1px 2px rgba(37, 99, 235, 0.08);
     }
 
     /* Sub-filters */
@@ -582,8 +645,16 @@
       </div>
     </div>
 
-    <!-- 6 Test Selector Tabs -->
-    <nav class="tab-nav" id="testNavTabs"></nav>
+    <!-- 6 Test Selector Tabs with Left/Right Navigation Controls -->
+    <div class="tab-nav-wrapper">
+      <button class="nav-arrow-btn" id="navArrowLeft" onclick="scrollTabs(-1)" aria-label="이전 모의고사 탭" title="이전 모의고사 탭">
+        <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+      </button>
+      <nav class="tab-nav" id="testNavTabs"></nav>
+      <button class="nav-arrow-btn" id="navArrowRight" onclick="scrollTabs(1)" aria-label="다음 모의고사 탭" title="다음 모의고사 탭">
+        <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      </button>
+    </div>
 
     <!-- Sub filter Bar -->
     <div class="sub-bar">
@@ -710,6 +781,67 @@
       }
     }
 
+    /* Nav Slider Controls & Drag-Scroll */
+    function scrollTabs(dir) {
+      const tabNav = document.getElementById("testNavTabs");
+      if (!tabNav) return;
+      const scrollAmount = Math.max(280, tabNav.clientWidth * 0.45);
+      tabNav.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
+      setTimeout(updateNavArrows, 320);
+    }
+
+    function updateNavArrows() {
+      const tabNav = document.getElementById("testNavTabs");
+      const leftBtn = document.getElementById("navArrowLeft");
+      const rightBtn = document.getElementById("navArrowRight");
+      if (!tabNav || !leftBtn || !rightBtn) return;
+
+      const isStart = tabNav.scrollLeft <= 5;
+      const isEnd = tabNav.scrollLeft + tabNav.clientWidth >= tabNav.scrollWidth - 5;
+
+      leftBtn.disabled = isStart;
+      rightBtn.disabled = isEnd;
+    }
+
+    function setupDragScroll() {
+      const slider = document.getElementById("testNavTabs");
+      if (!slider) return;
+
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+      let hasDragged = false;
+
+      slider.addEventListener("mousedown", (e) => {
+        isDown = true;
+        hasDragged = false;
+        slider.style.cursor = "grabbing";
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDown) return;
+        isDown = false;
+        slider.style.cursor = "grab";
+      });
+
+      slider.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        if (Math.abs(walk) > 4) {
+          hasDragged = true;
+          e.preventDefault();
+          slider.scrollLeft = scrollLeft - walk;
+          updateNavArrows();
+        }
+      });
+
+      slider.addEventListener("scroll", updateNavArrows);
+      window.addEventListener("resize", updateNavArrows);
+    }
+
     /* Initialize Application */
     function initApp() {
       // Build Test Nav Tabs
@@ -724,7 +856,9 @@
         tabNav.appendChild(btn);
       });
 
+      setupDragScroll();
       selectTest(currentTestId);
+      setTimeout(updateNavArrows, 100);
     }
 
     function selectTest(testId) {
@@ -735,8 +869,13 @@
 
       // Update Nav Tab UI
       document.querySelectorAll(".tab-btn").forEach((btn, idx) => {
-        btn.classList.toggle("active", Object.keys(MASTER_DATA)[idx] === testId);
+        const isActive = Object.keys(MASTER_DATA)[idx] === testId;
+        btn.classList.toggle("active", isActive);
+        if (isActive) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
+      setTimeout(updateNavArrows, 350);
 
       const testData = MASTER_DATA[testId];
       document.getElementById("testTitleText").innerText = testData.config.title;
